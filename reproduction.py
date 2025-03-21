@@ -5,6 +5,33 @@ import numpy as np
 import config
 from selection import fitness_function
 
+import config
+from selection import fitness_function
+
+
+def create_children(parents, number):
+    children = []
+    for child in range(number):
+        # randomly choose the values of traits from among parental alleles
+        phenotype = [np.random.choice([x,y]) for (x,y) in zip(parents[0].get_phenotype()[:-1], parents[0].get_phenotype()[:-1])]
+        sex = [np.random.choice(parents[0].get_phenotype()[-1], parents[0].get_phenotype()[-1])]
+        phenotype = np.append(phenotype, sex)
+        children.append(phenotype)
+
+    return children
+
+
+
+def create_children(parents, number):
+    children = []
+    for child in range(number):
+        # randomly choose the values of traits from among parental alleles
+        phenotype = [np.random.choice([x,y]) for (x,y) in zip(parents[0].get_phenotype()[:-1], parents[0].get_phenotype()[:-1])]
+        sex = [np.random.choice(parents[0].get_phenotype()[-1], parents[0].get_phenotype()[-1])]
+        phenotype = np.append(phenotype, sex)
+        children.append(phenotype)
+    return children
+
 
 def create_children(parents, number):
     children = []
@@ -32,12 +59,13 @@ def create_children(parents, number):
 
 def asexual_reproduction(all_paired, N, alpha, sigma):
     """
-    - Zakładamy, że populacja nie musi zapełnić wszystkich dostępnych miejsc w siedlisku
-
-
+    Wersja bezpłciowa (klonowanie):
+    - Zakładamy, że potomków będzie tyle, aby utrzymać rozmiar populacji = N.
+    - W najprostszej wersji: jeżeli mamy M ocalałych, 
+      a M < N, to klonujemy ich losowo aż do uzyskania N osobników.
     """
     new_population = []
-    if len(all_paired)*2 == 0:
+    if len(survivors) == 0:
         # Zabezpieczenie: jeśli wszyscy wymarli, inicjujemy od nowa (albo zatrzymujemy symulację).
         return []
     # Mieszanie par, żeby posiadanie dzieci nie zależało od fitness
