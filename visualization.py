@@ -42,7 +42,7 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
     plt.figure(figsize=(5, 5))
     plt.scatter(x, y, label="Populacja", alpha=0.5, c=colors)
     plt.scatter([alpha[0]], [alpha[1]], color='red', label="Optimum", marker="x")
-    plt.title(f"Pokolenie: {generation}")
+    plt.title(f"Pokolenie: {generation}, liczba osobników: {len(population.get_individuals())}")
     plt.xlim(-5, 5)
     plt.ylim(-5, 5)
     plt.legend()

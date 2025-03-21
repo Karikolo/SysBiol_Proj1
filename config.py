@@ -5,7 +5,8 @@ import numpy as np
 # -------------------
 # PARAMETRY POPULACJI
 # -------------------
-N = 50           # liczba osobników w populacji
+K = 50           # limit pojemności siedliska
+N = 10           # liczba osobników w populacji
 n = 2            # wymiar przestrzeni fenotypowej
 
 # --------------------

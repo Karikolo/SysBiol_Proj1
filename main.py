@@ -16,7 +16,7 @@ def main():
     pop = Population(size=config.N, n_dim=config.n)
     finish_gif = False # zmienna służąca do zapisania w gifie momentu wymarcia populacji
 
-    print("I'm main")
+    print("Starting of a population")
     # Katalog, w którym zapisujemy obrazki (możesz nazwać np. "frames/")
     frames_dir = "frames"
     if os.path.exists(frames_dir): shutil.rmtree(frames_dir) # upewnia się, że frames z poprzedniej symulacji nie wejdą do nowego gifa
@@ -27,7 +27,6 @@ def main():
         mutate_population(pop, mu=config.mu, mu_c=config.mu_c, xi=config.xi)
 
         # 2. Selekcja
-        #
         survivors = threshold_selection(pop, env.get_optimal_phenotype(), config.sigma, config.threshold_surv)
         for individual in survivors:
             individual.set_pair(None)
