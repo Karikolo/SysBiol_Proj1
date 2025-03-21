@@ -46,7 +46,7 @@ def main():
         asexuals = threshold_selection(pop, env.get_optimal_phenotype(), config.sigma, config.threshold_asex)
         # zmiana atrybutu - rozmnaża się sam
         for individual in asexuals:
-            individual.set(individual)
+            individual.set_pair(individual)
 
         paired = [s for s in survivors if s not in asexuals] # lista osobników, które w tej generacji rozmnażają się płciowo
 
