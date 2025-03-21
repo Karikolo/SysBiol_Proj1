@@ -16,7 +16,7 @@ def main():
     pop = Population(size=config.N, n_dim=config.n)
     finish_gif = False # zmienna służąca do zapisania w gifie momentu wymarcia populacji
 
-    print("Starting of a population")
+    print("Starting simulation")
     # Katalog, w którym zapisujemy obrazki (możesz nazwać np. "frames/")
     frames_dir = "frames"
     if os.path.exists(frames_dir): shutil.rmtree(frames_dir) # upewnia się, że frames z poprzedniej symulacji nie wejdą do nowego gifa
@@ -47,11 +47,14 @@ def main():
         for individual in asexuals:
             individual.set_pair(individual)
 
-        paired = [s for s in survivors if s not in asexuals] # lista osobników, które w tej generacji rozmnażają się płciowo
-
+        sex_to_pair = [s for s in survivors if s not in asexuals] # lista osobników, które w tej generacji rozmnażają się płciowo
+        # parowanie osobników - rozmnażanie płciowe
+        sex_paired = pop.set_pairs(sex_to_pair)
+        asex_paired = [(ind,ind) for ind in asexuals]
+        # lista wszystkich par w populacji - płciowe i bezpłciowe
+        all_paired = sex_paired + asex_paired
 
         '''
-        population.pair(), lub w reprodukcji
         odgórnie osobniki dobierane w pary, zapamiętują z kim są w parze lub gdy w ogóle się nie rozmnażają
         reproduction robi update populacji: nie rozmnażające się pozostają, aseksualne się klonują, 
         płciowe samice i jej dzieci wchodzą do populacji, samce umierają? (na początku wszyscy przeżywają)

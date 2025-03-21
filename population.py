@@ -28,7 +28,8 @@ class Population:
     def set_individuals(self, new_individuals):
         self.individuals = new_individuals
 
-    def set_pairs(self, individuals):
+    @staticmethod
+    def set_pairs(individuals):
         # Separate males and females and change each of their pair attributes to the other
         females = [ind for ind in individuals if ind.get_pheontype()[-1] == 0]
         males = [ind for ind in individuals if ind.get_pheontype()[-1] == 1]
