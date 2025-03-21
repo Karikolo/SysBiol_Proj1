@@ -27,8 +27,12 @@ def main():
         mutate_population(pop, mu=config.mu, mu_c=config.mu_c, xi=config.xi)
 
         # 2. Selekcja
+        #
         survivors = threshold_selection(pop, env.get_optimal_phenotype(), config.sigma, config.threshold_surv)
+        for individual in survivors:
+            individual.set_pair(None)
         pop.set_individuals(survivors) # what does this mean?
+
 
         if len(survivors) > 0:
             proportional_selection(pop, env.get_optimal_phenotype(), config.sigma, config.N)
@@ -40,6 +44,10 @@ def main():
         # TODO: check if config.sigma applies here as well
         # Dobieranie w pary (ten, kto się nie dobierze, ten się nie rozmnaża)
         asexuals = threshold_selection(pop, env.get_optimal_phenotype(), config.sigma, config.threshold_asex)
+        # zmiana atrybutu - rozmnaża się sam
+        for individual in asexuals:
+            individual.set(individual)
+
         paired = [s for s in survivors if s not in asexuals] # lista osobników, które w tej generacji rozmnażają się płciowo
 
 
