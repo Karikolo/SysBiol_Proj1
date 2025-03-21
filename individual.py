@@ -10,7 +10,6 @@ class Individual:
     def __init__(self, phenotype):
         self.phenotype = phenotype
         self.pair = self
-        self.sex = 1
 
     def get_phenotype(self):
         return self.phenotype
@@ -21,8 +20,8 @@ class Individual:
     def get_pair(self):
         return self.pair
     
-    # def set_pairs(individuals):
-    # [(A, B), ]
+    def set_pair(self, individual):
+        self.pair = individual
 
     def get_sex(self):
-        return self.sex
+        return self.phenotype[-1]

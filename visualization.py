@@ -16,6 +16,7 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
     """
     x = [ind.get_phenotype()[0] for ind in population.get_individuals()]
     y = [ind.get_phenotype()[1] for ind in population.get_individuals()]
+    sex = [ind.get_phenotype()[-1] for ind in population.get_individuals()]
 
     # Determine colors based on pairing status
     '''colors = []
@@ -33,7 +34,7 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
         for ind in population.get_individuals()
     ]
     markers = [
-        "x" if ind.get_sex() is 0 else
+        "x" if ind.get_sex() == 0 else
         "o"
         for ind in population.get_individuals()
     ]

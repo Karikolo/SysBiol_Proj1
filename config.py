@@ -20,8 +20,8 @@ xi = 0.1         # odchylenie standardowe w rozkładzie normalnym mutacji
 # --------------------
 sigma = 0.5     # parametr w funkcji fitness (kontroluje siłę selekcji)
 threshold_surv = 0.2  # przykładowy próg do selekcji progowej (do ewentualnego użycia)
-threshold_ace = 0.1 # próg do selekcji progowej osobników mogących się rozmnażać bezpłciowo
-
+threshold_asex = 0.5 # próg do selekcji progowej osobników mogących się rozmnażać bezpłciowo
+#threshold_sex = 0.2
 # --------------------
 # PARAMETRY ŚRODOWISKA
 # --------------------

@@ -9,7 +9,7 @@ def fitness_function(phenotype, alpha, sigma):
     :param alpha: optymalny fenotyp (np.array)
     :param sigma: odchylenie (float) kontrolujące siłę selekcji
     """
-    diff = phenotype - alpha
+    diff = phenotype[:-1] - alpha # exclude sex
     dist_sq = np.sum(diff**2)
     return np.exp(-dist_sq / (2 * sigma**2))
 

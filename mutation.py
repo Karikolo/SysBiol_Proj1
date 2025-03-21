@@ -11,7 +11,7 @@ def mutate_individual(individual, mu, mu_c, xi):
     """
     if np.random.rand() < mu:
         phenotype = individual.get_phenotype().copy()
-        for i in range(len(phenotype)):
+        for i in range(len(phenotype)-1):
             if np.random.rand() < mu_c:
                 phenotype[i] += np.random.normal(0.0, xi)
         individual.set_phenotype(phenotype)
