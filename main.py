@@ -41,6 +41,8 @@ def main():
         # Dobieranie w pary (ten, kto się nie dobierze, ten się nie rozmnaża)
         asexuals = threshold_selection(pop, env.get_optimal_phenotype(), config.sigma, config.threshold_asex)
         paired = [s for s in survivors if s not in asexuals] # lista osobników, które w tej generacji rozmnażają się płciowo
+
+
         '''
         population.pair(), lub w reprodukcji
         odgórnie osobniki dobierane w pary, zapamiętują z kim są w parze lub gdy w ogóle się nie rozmnażają
@@ -72,7 +74,7 @@ def create_gif_from_frames(frames_dir, gif_filename, duration=0.5):
     :param gif_filename: nazwa pliku wyjściowego GIF
     :param duration: czas wyświetlania jednej klatki w sekundach
     """
-    import imageio
+    import imageio.v2 as imageio
     import os
 
     # Sortujemy pliki po nazwach, żeby zachować kolejność generacji
@@ -82,6 +84,10 @@ def create_gif_from_frames(frames_dir, gif_filename, duration=0.5):
         for file_name in filenames:
             path = os.path.join(frames_dir, file_name)
             image = imageio.imread(path)
+            '''
+            /home/karina/Documents/Bioinf_III/Systems_biology/SysBiol_Proj1/main.py:84: DeprecationWarning: Starting with ImageIO v3 the behavior of this function will switch to that of iio.v3.imread. To keep the current behavior (and make this warning disappear) use `import imageio.v2 as imageio` or call `imageio.v2.imread` directly.
+  image = imageio.imread(path)
+            '''
             writer.append_data(image)
 
 

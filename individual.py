@@ -9,7 +9,7 @@ class Individual:
     """
     def __init__(self, phenotype):
         self.phenotype = phenotype
-        self.pair = self
+        self.pair = None
 
     def get_phenotype(self):
         return self.phenotype
