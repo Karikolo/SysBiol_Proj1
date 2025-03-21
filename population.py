@@ -28,7 +28,8 @@ class Population:
     def set_individuals(self, new_individuals):
         self.individuals = new_individuals
 
-    def set_pairs(self, individuals):
+    @staticmethod
+    def set_pairs(individuals):
         # Separate males and females and change each of their pair attributes to the other
         females = [ind for ind in individuals if ind[-1] == 0]
         males = [ind for ind in individuals if ind[-1] == 1]
@@ -37,3 +38,4 @@ class Population:
         for pair in paired:
             pair[0].set_pair(pair[1])
             pair[1].set_pair(pair[0])
+        return paired
