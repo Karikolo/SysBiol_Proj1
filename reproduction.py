@@ -6,6 +6,30 @@ import config
 from selection import fitness_function
 
 
+def create_children(parents, number):
+    children = []
+    for child in range(number):
+        # randomly choose the values of traits from among parental alleles
+        phenotype = [np.random.choice([x,y]) for (x,y) in zip(parents[0].get_phenotype()[:-1], parents[0].get_phenotype()[:-1])]
+        sex = [np.random.choice(parents[0].get_phenotype()[-1], parents[0].get_phenotype()[-1])]
+        phenotype = np.append(phenotype, sex)
+        children.append(phenotype)
+
+    return children
+
+
+
+def create_children(parents, number):
+    children = []
+    for child in range(number):
+        # randomly choose the values of traits from among parental alleles
+        phenotype = [np.random.choice([x,y]) for (x,y) in zip(parents[0].get_phenotype()[:-1], parents[0].get_phenotype()[:-1])]
+        sex = [np.random.choice(parents[0].get_phenotype()[-1], parents[0].get_phenotype()[-1])]
+        phenotype = np.append(phenotype, sex)
+        children.append(phenotype)
+    return children
+
+
 def asexual_reproduction(all_paired, N, alpha, sigma):
     """
     - Zakładamy, że populacja nie musi zapełnić wszystkich dostępnych miejsc w siedlisku
