@@ -16,9 +16,10 @@ def main():
     pop = Population(size=config.N, n_dim=config.n)
     finish_gif = False # zmienna służąca do zapisania w gifie momentu wymarcia populacji
 
+    print("I'm main")
     # Katalog, w którym zapisujemy obrazki (możesz nazwać np. "frames/")
     frames_dir = "frames"
-    shutil.rmtree(frames_dir) # upewnia się, że frames z poprzedniej symulacji nie wejdą do nowego gifa
+    if os.path.exists(frames_dir): shutil.rmtree(frames_dir) # upewnia się, że frames z poprzedniej symulacji nie wejdą do nowego gifa
     os.makedirs(frames_dir, exist_ok=True)  # tworzy folder
 
     for generation in range(config.max_generations):
