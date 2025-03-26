@@ -2,7 +2,8 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
-
+import matplotlib.patches as mpatches
+import matplotlib.lines as mlines
 '''
 TODO: 
 1) legenda z licznikiem a) osobników aseksualnych b) osobników płciowych 
@@ -14,9 +15,10 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
     Można zarówno wyświetlać (show_plot=True),
     jak i zapisywać obraz (save_path != None).
     """
-    x = [ind.get_phenotype()[0] for ind in population.get_individuals()]
-    y = [ind.get_phenotype()[1] for ind in population.get_individuals()]
-    sex = [ind.get_phenotype()[-1] for ind in population.get_individuals()]
+    individuals = population.get_individuals()
+    x = np.array([ind.get_phenotype()[0] for ind in individuals])
+    y = np.array([ind.get_phenotype()[1] for ind in individuals])
+    sex = np.array([ind.get_phenotype()[-1] for ind in individuals])
 
     # Determine colors based on pairing status
     '''colors = []
@@ -27,11 +29,18 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
             colors.append("gray")
         else:  # Paired with another individual
             colors.append("orange")'''
-    colors = [
-        "blue" if ind.get_pair() is ind else 
-        "gray" if ind.get_pair() is None else 
-        "orange"
+    colors = np.array([
+        "blue" if ind.get_pair() is ind else  # Asexual reproduction
+        "gray" if ind.get_pair() is None else  # Did not find a mate
+        "pink"  # Successfully mated
         for ind in population.get_individuals()
+    ])
+    # Define legend handles
+    legend_patches = [
+        mpatches.Patch(color="blue", label="Asexual reproduction"),
+        mpatches.Patch(color="gray", label="No mate found"),
+        mpatches.Patch(color="pink", label="Mated successfully"),
+        mpatches.Patch(color="red", label="Optimum")
     ]
     markers = [
         "x" if ind.get_sex() == 0 else
@@ -39,13 +48,26 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
         for ind in population.get_individuals()
     ]
 
-    plt.figure(figsize=(5, 5))
-    plt.scatter(x, y, label="Populacja", alpha=0.5, c=colors)
-    plt.scatter([alpha[0]], [alpha[1]], color='red', label="Optimum", marker="x")
-    plt.title(f"Pokolenie: {generation}, liczba osobników: {len(population.get_individuals())}")
-    plt.xlim(-5, 5)
-    plt.ylim(-5, 5)
-    plt.legend()
+    #plt.figure(figsize=(5, 5))
+    fig, ax = plt.subplots(figsize=(5, 5))
+    # Males (Triangles)
+    male_mask = (sex == 1)
+    ax.scatter(x[male_mask], y[male_mask], c=colors[male_mask], marker="^", alpha=0.5, label="Males")
+
+    # Females (Circles)
+    female_mask = (sex == 0)
+    ax.scatter(x[female_mask], y[female_mask], c=colors[female_mask], marker="o", alpha=0.5, label="Females")
+
+    legend_markers = [
+        mlines.Line2D([], [], color='black', marker="^", linestyle="None", markersize=8, label="Males"),
+        mlines.Line2D([], [], color='black', marker="o", linestyle="None", markersize=8, label="Females")
+    ]
+    #plt.scatter(x, y, label="Populacja", alpha=0.5, c=colors)
+    ax.scatter([alpha[0]], [alpha[1]], color='red', label="Optimum", marker="x")
+    ax.set_title(f"Pokolenie: {generation}, liczba osobników: {len(individuals)}")
+    ax.set_xlim(-5, 5)
+    ax.set_ylim(-5, 5)
+    ax.legend(handles=legend_patches+legend_markers)
     plt.tight_layout()
     
     if save_path is not None:

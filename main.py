@@ -21,8 +21,11 @@ def main():
     frames_dir = "frames"
     if os.path.exists(frames_dir): shutil.rmtree(frames_dir) # upewnia się, że frames z poprzedniej symulacji nie wejdą do nowego gifa
     os.makedirs(frames_dir, exist_ok=True)  # tworzy folder
+    # Zapis aktualnego stanu populacji do pliku PNG od pierwszego pokolenia
+    frame_filename = os.path.join(frames_dir, f"frame_{0:03d}.png")
+    plot_population(pop, env.get_optimal_phenotype(), 0, save_path=frame_filename, show_plot=False)
 
-    for generation in range(config.max_generations):
+    for generation in range(1,config.max_generations):
         # 1. Mutacja
         mutate_population(pop, mu=config.mu, mu_c=config.mu_c, xi=config.xi)
 
