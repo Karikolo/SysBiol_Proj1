@@ -22,39 +22,6 @@ def create_children(parents, number):
 
 
 
-def create_children(parents, number):
-    children = []
-    for child in range(number):
-        # randomly choose the values of traits from among parental alleles
-        phenotype = [np.random.choice([x,y]) for (x,y) in zip(parents[0].get_phenotype()[:-1], parents[0].get_phenotype()[:-1])]
-        sex = [np.random.choice(parents[0].get_phenotype()[-1], parents[0].get_phenotype()[-1])]
-        phenotype = np.append(phenotype, sex)
-        children.append(phenotype)
-    return children
-
-
-def create_children(parents, number):
-    children = []
-    for child in range(number):
-        # randomly choose the values of traits from among parental alleles
-        phenotype = [np.random.choice([x,y]) for (x,y) in zip(parents[0].get_phenotype()[:-1], parents[0].get_phenotype()[:-1])]
-        sex = [np.random.choice(parents[0].get_phenotype()[-1], parents[0].get_phenotype()[-1])]
-        phenotype = np.append(phenotype, sex)
-        children.append(phenotype)
-
-    return children
-
-
-
-def create_children(parents, number):
-    children = []
-    for child in range(number):
-        # randomly choose the values of traits from among parental alleles
-        phenotype = [np.random.choice([x,y]) for (x,y) in zip(parents[0].get_phenotype()[:-1], parents[0].get_phenotype()[:-1])]
-        sex = [np.random.choice(parents[0].get_phenotype()[-1], parents[0].get_phenotype()[-1])]
-        phenotype = np.append(phenotype, sex)
-        children.append(phenotype)
-    return children
 
 
 def asexual_reproduction(all_paired, N, alpha, sigma):
@@ -65,11 +32,14 @@ def asexual_reproduction(all_paired, N, alpha, sigma):
       a M < N, to klonujemy ich losowo aż do uzyskania N osobników.
     """
     new_population = []
-    if len(survivors) == 0:
+    if len(all_paired) == 0:
         # Zabezpieczenie: jeśli wszyscy wymarli, inicjujemy od nowa (albo zatrzymujemy symulację).
         return []
     # Mieszanie par, żeby posiadanie dzieci nie zależało od fitness
     np.random.shuffle(all_paired)
+
+    print(all_paired)
+
     # Wyliczenie fitness par w populacji
     fitnesses = [(pair[0].get_phenotype()[:-1] + pair[1].get_phentype()[:-1]) / 2
                  for pair in all_paired]
@@ -95,7 +65,6 @@ def asexual_reproduction(all_paired, N, alpha, sigma):
             if yes: total_children+=1
         # aktualizujemy liczbe dostępnych miejsc dla potomstwa pozostałych par
         free_spots-=total_children
-
 
 
 
