@@ -34,13 +34,13 @@ def reproduction(all_paired, alpha, sigma, N):
     # Wyliczenie średniego fitness dla par w populacji
     fitnesses = [((fitness_function(pair[0].get_phenotype(),alpha, sigma) +
                       fitness_function(pair[1].get_phenotype(), alpha, sigma))/2) for pair in all_paired]
-    total_fitness = sum(fitnesses)
+    total_fitness = sum(fitnesses)*2
 
 
     # Ustalenie możliwej liczby dzieci i liczby dzieci, które para ostatecznie urodziła
     free_spots = config.K - N
     for i,pair in enumerate(all_paired):
-        ex_value = free_spots/len(all_paired) # oczekiwana liczba dzieci dla pary
+        ex_value = min(config.avg_children,free_spots/len(all_paired)) # oczekiwana liczba dzieci dla pary
         #p = 1 / (ex_value + 1)
 
         pair_fitness = fitnesses[i]

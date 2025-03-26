@@ -37,6 +37,8 @@ class Population:
         # Separate males and females and change each of their pair attributes to the other
         females = [ind for ind in individuals if ind.get_phenotype()[-1] == 0]
         males = [ind for ind in individuals if ind.get_phenotype()[-1] == 1]
+        #print("Females to be paired:", len(females))
+        #print("Males to be paired:", len(males))
 
         np.random.shuffle(females)
         np.random.shuffle(males)

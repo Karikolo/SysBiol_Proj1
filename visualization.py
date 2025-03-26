@@ -4,6 +4,9 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.patches as mpatches
 import matplotlib.lines as mlines
+import config
+
+
 '''
 TODO: 
 1) legenda z licznikiem a) osobników aseksualnych b) osobników płciowych 
@@ -16,9 +19,12 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
     jak i zapisywać obraz (save_path != None).
     """
     individuals = population.get_individuals()
-    x = np.array([ind.get_phenotype()[0] for ind in individuals])
-    y = np.array([ind.get_phenotype()[1] for ind in individuals])
-    sex = np.array([ind.get_phenotype()[-1] for ind in individuals])
+    ind_reversed = []
+    for i in range(len(individuals)-1, -1, -1):
+        ind_reversed.append(individuals[i])
+    x = np.array([ind.get_phenotype()[0] for ind in ind_reversed])
+    y = np.array([ind.get_phenotype()[1] for ind in ind_reversed])
+    sex = np.array([ind.get_phenotype()[-1] for ind in ind_reversed])
 
     '''colors = []
     for ind in population.get_individuals():
@@ -32,7 +38,7 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
         "blue" if ind.get_pair() is ind else  # Asexual reproduction
         "gray" if ind.get_pair() is None else  # Did not find a mate
         "pink"  # Successfully mated
-        for ind in population.get_individuals()
+        for ind in ind_reversed
     ])
     # Define legend handles
     legend_patches = [
@@ -41,14 +47,21 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
         mpatches.Patch(color="pink", label="Mated successfully"),
         mpatches.Patch(color="red", label="Optimum")
     ]
-    markers = [
-        "x" if ind.get_sex() == 0 else
-        "o"
-        for ind in population.get_individuals()
-    ]
+
 
     #plt.figure(figsize=(5, 5))
     fig, ax = plt.subplots(figsize=(5, 5))
+
+    # Reproduction barriers:
+    circle_asex = mpatches.Circle((alpha[0], alpha[1]), np.sqrt(-2 * config.sigma**2 * np.log(config.threshold_asex)), fill=False, edgecolor='red',
+                                  linestyle='--', label='Asexual threshold')
+    circle_surv = mpatches.Circle((alpha[0], alpha[1]), np.sqrt(-2 * config.sigma**2 * np.log(config.threshold_surv)), fill=False, edgecolor='green',
+                                  linestyle='--', label='Survival threshold')
+
+    # Add circles to the plot
+    ax.add_patch(circle_asex)
+    ax.add_patch(circle_surv)
+
     # Males (Triangles)
     male_mask = (sex == 1)
     ax.scatter(x[male_mask], y[male_mask], c=colors[male_mask], marker="^", alpha=0.5, label="Males")
@@ -63,6 +76,8 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
     ]
     #plt.scatter(x, y, label="Populacja", alpha=0.5, c=colors)
     ax.scatter([alpha[0]], [alpha[1]], color='red', label="Optimum", marker="x")
+
+
     ax.set_title(f"Pokolenie: {generation}, liczba osobników: {len(individuals)}")
     ax.set_xlim(-5, 5)
     ax.set_ylim(-5, 5)
