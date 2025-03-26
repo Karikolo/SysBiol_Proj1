@@ -31,14 +31,31 @@ class Population:
     @staticmethod
     def set_pairs(individuals):
         # Separate males and females and change each of their pair attributes to the other
-        females = [ind for ind in individuals if ind.get_pheontype()[-1] == 0]
-        males = [ind for ind in individuals if ind.get_pheontype()[-1] == 1]
+        females = [ind for ind in individuals if ind.get_phenotype()[-1] == 0]
+        males = [ind for ind in individuals if ind.get_phenotype()[-1] == 1]
 
         np.random.shuffle(females)
         np.random.shuffle(males)
 
+        if len(females)<=len(males): shortest = females
+        else: shortest = males
+
+        paired=[]
+        for i in range(len(shortest)):
+            paired.append((females[i], males[i]))
+            females[i].set_pair(males[i])
+            males[i].set_pair(females[i])
+
+        return paired
+
+
+
+"""
         paired = list(zip(females, males))
         for pair in paired:
             pair[0].set_pair(pair[1])
             pair[1].set_pair(pair[0])
+        print(paired)
         return paired
+
+"""
