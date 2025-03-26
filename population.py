@@ -28,6 +28,10 @@ class Population:
     def set_individuals(self, new_individuals):
         self.individuals = new_individuals
 
+    def add_individuals(self, phenotypes):
+        for phenotype in phenotypes:
+            self.individuals.append(Individual(phenotype))
+
     @staticmethod
     def set_pairs(individuals):
         # Separate males and females and change each of their pair attributes to the other

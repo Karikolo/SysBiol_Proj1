@@ -25,3 +25,9 @@ class Individual:
 
     def get_sex(self):
         return self.phenotype[-1]
+
+    def print_phenotype(self):
+        list = []
+        for value in self.phenotype:
+            list.append(value)
+        return list

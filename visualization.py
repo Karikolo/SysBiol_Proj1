@@ -2,6 +2,7 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.patches as mpatches
 
 '''
 TODO: 
@@ -28,10 +29,17 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
         else:  # Paired with another individual
             colors.append("orange")'''
     colors = [
-        "blue" if ind.get_pair() is ind else 
-        "gray" if ind.get_pair() is None else 
-        "orange"
+        "blue" if ind.get_pair() is ind else  # Asexual reproduction
+        "gray" if ind.get_pair() is None else  # Did not find a mate
+        "pink"  # Successfully mated
         for ind in population.get_individuals()
+    ]
+    # Define legend handles
+    legend_patches = [
+        mpatches.Patch(color="blue", label="Asexual reproduction"),
+        mpatches.Patch(color="gray", label="No mate found"),
+        mpatches.Patch(color="pink", label="Mated successfully"),
+        mpatches.Patch(color="red", label="Optimum")
     ]
     markers = [
         "x" if ind.get_sex() == 0 else
@@ -45,7 +53,7 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
     plt.title(f"Pokolenie: {generation}, liczba osobników: {len(population.get_individuals())}")
     plt.xlim(-5, 5)
     plt.ylim(-5, 5)
-    plt.legend()
+    plt.legend(handles=legend_patches)
     plt.tight_layout()
     
     if save_path is not None:

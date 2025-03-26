@@ -36,7 +36,7 @@ def main():
             print(f"Wszyscy wymarli w pokoleniu {generation}. Kończę symulację.")
             finish_gif = True
         if finish_gif: break
-        print("Survivors:", survivors)
+        #print("Survivors:", survivors, len(survivors))
 
         # 3. Reprodukcja
         # Bezpłciowa
@@ -44,23 +44,29 @@ def main():
         # zmiana atrybutu - rozmnaża się sam
         asex_paired = []
         for individual in asexuals:
+            # remove all males from asexual reproduction:
+            if individual.get_phenotype()[-1] == 1: asexuals.remove(individual)
             individual.set_pair(individual)
             asex_paired +=  [(individual,individual)]
-        print("Asexuals paired:", asex_paired)
+        #print("Asexuals paired:", asex_paired)
 
         # Płciowa
         # Dobieranie w pary (ten, kto się nie dobierze, ten się nie rozmnaża)
         sex_to_pair = [s for s in survivors if s not in asexuals] # lista osobników, które w tej generacji rozmnażają się płciowo
         # parowanie osobników - rozmnażanie płciowe
         sex_paired = pop.set_pairs(sex_to_pair)
-        print("Sexual paired:", sex_paired)
+        #print("Sexual paired:", sex_paired)
 
         # lista wszystkich par w populacji - płciowe i bezpłciowe
         all_paired = sex_paired + asex_paired
-        print("All paired:", all_paired)
+        #print("All paired:", all_paired)
 
-        new_population = np.append(survivors, reproduction(all_paired, env.get_optimal_phenotype(), config.sigma, len(survivors)))
-        pop.set_individuals(new_population) # wszyscy rodzice i potomkowie
+        children_phenotypes = reproduction(all_paired, env.get_optimal_phenotype(), config.sigma, len(survivors))
+        #print("Children phenotypes:", children_phenotypes, len(children_phenotypes))
+        new_population = survivors
+        pop.set_individuals(new_population) # wszyscy rodzice, którzy przetrwali
+        pop.add_individuals(children_phenotypes)
+        #print("New population:", pop.get_individuals(), len(pop.get_individuals()))
 
         '''
         odgórnie osobniki dobierane w pary, zapamiętują z kim są w parze lub gdy w ogóle się nie rozmnażają
