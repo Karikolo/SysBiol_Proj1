@@ -8,7 +8,7 @@ from environment import Environment
 from population import Population
 from mutation import mutate_population
 from selection import proportional_selection, threshold_selection
-from reproduction import asexual_reproduction
+from reproduction import reproduction
 from visualization import plot_population
 
 def main():
@@ -24,8 +24,10 @@ def main():
     # Zapis aktualnego stanu populacji do pliku PNG od pierwszego pokolenia
     frame_filename = os.path.join(frames_dir, f"frame_{0:03d}.png")
     plot_population(pop, env.get_optimal_phenotype(), 0, save_path=frame_filename, show_plot=False)
-
+    dying = []
     for generation in range(1,config.max_generations):
+        dying = []
+
         # 1. Mutacja
         mutate_population(pop, mu=config.mu, mu_c=config.mu_c, xi=config.xi)
 
@@ -33,29 +35,47 @@ def main():
         survivors = threshold_selection(pop, env.get_optimal_phenotype(), config.sigma, config.threshold_surv)
         for individual in survivors:
             individual.set_pair(None)
-        pop.set_individuals(survivors) # what does this mean?
+            if individual.get_age()>config.lifespan:
+                dying+=individual
+        pop.set_individuals(survivors)
+        survivors = [ind for ind in survivors if ind not in dying]
 
-
-        if len(survivors) > 0:
-            proportional_selection(pop, env.get_optimal_phenotype(), config.sigma, config.N)
-        else:
+        if len(survivors) <= 0:
             print(f"Wszyscy wymarli w pokoleniu {generation}. Kończę symulację.")
             finish_gif = True
+        if finish_gif: break
+        #print("Survivors:", survivors, len(survivors))
 
-        # 3. Reprodukcja 
-        # TODO: check if config.sigma applies here as well
-        # Dobieranie w pary (ten, kto się nie dobierze, ten się nie rozmnaża)
+        # 3. Reprodukcja
+        # Bezpłciowa
         asexuals = threshold_selection(pop, env.get_optimal_phenotype(), config.sigma, config.threshold_asex)
         # zmiana atrybutu - rozmnaża się sam
+        asex_paired = []
+        asex_female = []
         for individual in asexuals:
-            individual.set_pair(individual)
+            # remove all males from asexual reproduction:
+            if individual.get_phenotype()[-1] == 0:
+                individual.set_pair(individual)
+                asex_paired +=  [(individual,individual)]
+                asex_female.append(individual)
+        #print("Asexuals paired (not males):", len(asex_paired))
 
-        sex_to_pair = [s for s in survivors if s not in asexuals] # lista osobników, które w tej generacji rozmnażają się płciowo
+        # Płciowa
+        # Dobieranie w pary (ten, kto się nie dobierze, ten się nie rozmnaża)
+        sex_to_pair = [s for s in survivors if s not in asex_female] # lista osobników, które w tej generacji rozmnażają się płciowo
         # parowanie osobników - rozmnażanie płciowe
         sex_paired = pop.set_pairs(sex_to_pair)
-        asex_paired = [(ind,ind) for ind in asexuals]
+        #print("Sexual paired:", sex_paired)
+
         # lista wszystkich par w populacji - płciowe i bezpłciowe
         all_paired = sex_paired + asex_paired
+        #print("All paired:", all_paired)
+
+        children_phenotypes = reproduction(all_paired, env.get_optimal_phenotype(), config.sigma, len(survivors))
+        #print("Children phenotypes:", children_phenotypes, len(children_phenotypes))
+        pop.add_individuals(children_phenotypes)
+        #print("New population:", pop.get_individuals(), len(pop.get_individuals()))
+
 
         '''
         odgórnie osobniki dobierane w pary, zapamiętują z kim są w parze lub gdy w ogóle się nie rozmnażają
@@ -71,7 +91,6 @@ def main():
         frame_filename = os.path.join(frames_dir, f"frame_{generation:03d}.png")
         plot_population(pop, env.get_optimal_phenotype(), generation, save_path=frame_filename, show_plot=False)
         
-        if finish_gif: break
 
     print("Symulacja zakończona. Tworzenie GIF-a...")
 

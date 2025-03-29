@@ -28,11 +28,17 @@ class Population:
     def set_individuals(self, new_individuals):
         self.individuals = new_individuals
 
+    def add_individuals(self, phenotypes):
+        for phenotype in phenotypes:
+            self.individuals.append(Individual(phenotype))
+
     @staticmethod
     def set_pairs(individuals):
         # Separate males and females and change each of their pair attributes to the other
         females = [ind for ind in individuals if ind.get_phenotype()[-1] == 0]
         males = [ind for ind in individuals if ind.get_phenotype()[-1] == 1]
+        #print("Females to be paired:", len(females))
+        #print("Males to be paired:", len(males))
 
         np.random.shuffle(females)
         np.random.shuffle(males)
@@ -55,6 +61,7 @@ class Population:
         for pair in paired:
             pair[0].set_pair(pair[1])
             pair[1].set_pair(pair[0])
+        print(paired)
         return paired
 
 """

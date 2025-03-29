@@ -5,70 +5,68 @@ import numpy as np
 import config
 from selection import fitness_function
 
-import config
-from selection import fitness_function
-
 
 def create_children(parents, number):
+    if parents[0] == parents[1]: return [parents[0].get_phenotype() for child in range(number)]
     children = []
     for child in range(number):
         # randomly choose the values of traits from among parental alleles
         phenotype = [np.random.choice([x,y]) for (x,y) in zip(parents[0].get_phenotype()[:-1], parents[0].get_phenotype()[:-1])]
-        sex = [np.random.choice(parents[0].get_phenotype()[-1], parents[0].get_phenotype()[-1])]
+        sex = [np.random.choice([parents[0].get_phenotype()[-1], parents[0].get_phenotype()[-1]])]
         phenotype = np.append(phenotype, sex)
         children.append(phenotype)
-
     return children
 
 
-
-
-
-def asexual_reproduction(all_paired, N, alpha, sigma):
+def reproduction(all_paired, alpha, sigma, N):
     """
-    Wersja bezpłciowa (klonowanie):
-    - Zakładamy, że potomków będzie tyle, aby utrzymać rozmiar populacji = N.
-    - W najprostszej wersji: jeżeli mamy M ocalałych, 
-      a M < N, to klonujemy ich losowo aż do uzyskania N osobników.
+    all_paired eg.: [(<Individual 1>, <Individual 2>), (<Individual 3>, <Individual 3>)]
     """
-    new_population = []
+    new_children = [] # lista wszystkich nowych osobników (potomstwa)
+
     if len(all_paired) == 0:
         # Zabezpieczenie: jeśli wszyscy wymarli, inicjujemy od nowa (albo zatrzymujemy symulację).
         return []
-    # Mieszanie par, żeby posiadanie dzieci nie zależało od fitness
+
+    # Mieszanie par, żeby możliwość posiadania dzieci nie zależało od fitness
     np.random.shuffle(all_paired)
 
-    print(all_paired)
+    # Wyliczenie średniego fitness dla par w populacji
+    fitnesses = [((fitness_function(pair[0].get_phenotype(),alpha, sigma) +
+                      fitness_function(pair[1].get_phenotype(), alpha, sigma))/2) for pair in all_paired]
+    total_fitness = sum(fitnesses)*2
 
-    # Wyliczenie fitness par w populacji
-    fitnesses = [(pair[0].get_phenotype()[:-1] + pair[1].get_phentype()[:-1]) / 2
-                 for pair in all_paired]
-    total_fitness = sum(fitnesses)
 
-    # Ustalenie miejsc dla dzieci i ile para urodziła dzieci ostatecznie
-    free_spots = config.K - 2 * len(all_paired)
-    for pair in all_paired:
-        ex_value = free_spots/len(all_paired)
-        p = 1 / (ex_value + 1)
+    # Ustalenie możliwej liczby dzieci i liczby dzieci, które para ostatecznie urodziła
+    free_spots = config.K - N
+    for i,pair in enumerate(all_paired):
+        ex_value = min(config.avg_children,free_spots/len(all_paired)) # oczekiwana liczba dzieci dla pary
+        #p = 1 / (ex_value + 1)
 
+        pair_fitness = fitnesses[i]
+        lambda_values = (1 - pair_fitness / total_fitness) * ex_value
         if total_fitness == 0:
-            # Jeśli całkowite fitness jest 0, to każdy osobnik dostaje równą szansę
-            pair_fitness = [1.0 / len(all_paired)] * len(all_paired)
-        else:
-            # fitness pary - średnia ich fitnessów
-            pair_fitness = (pair[0].get_phenotype()[:-1] + pair[1].get_phenotype()[:-1]) / 2
+            # Jeśli całkowite fitness jest 0, (każdy osobnik jest w optimum), to każdy osobnik dostaje równą szansę
+            pair_fitness = 1.0 / len(all_paired)
+            lambda_values = pair_fitness * ex_value
 
-        spots_children = min(np.random.geometric(p), free_spots) #TODO: Poisson może lepiej?
+
+        spots_children = np.minimum(np.random.poisson(lambda_values), free_spots)  # Ensure we don't exceed free spots
+        total_children = np.sum(spots_children)
+        '''spots_children = min(np.random.poisson(ex_value), free_spots) #TODO: Poisson może lepiej?
         total_children = 0
         for i in range(spots_children):
-            yes = np.random.choice([0,1], p=pair_fitness/total_fitness)
-            if yes: total_children+=1
+            prob = 1 - (pair_fitness[i] / total_fitness)  # good fitness -> low value -> pair_fitness[i] / total_fitness low, so we
+            yes = np.random.choice([0,1], p=[1-prob, prob])
+            if yes: total_children+=1'''
+
         # aktualizujemy liczbe dostępnych miejsc dla potomstwa pozostałych par
         free_spots-=total_children
 
-
-
-    return new_population
+        # tworzymy osobniki potomne dla pary i dodajemy je do listy
+        pairs_children = create_children(pair, total_children)
+        new_children += pairs_children
+    return new_children
 
 """
     while len(new_population) < N:
@@ -80,14 +78,3 @@ def asexual_reproduction(all_paired, N, alpha, sigma):
     return new_population[:N]  # przycinamy, gdyby było za dużo
 
 """
-
-
-def sexual_reproduction(survivors, N):
-    """
-    Wesja płciowa:
-    - 
-    """
-    if len(survivors) == 0:
-        # Zabezpieczenie: jeśli wszyscy wymarli, inicjujemy od nowa (albo zatrzymujemy symulację).
-        return []
-    

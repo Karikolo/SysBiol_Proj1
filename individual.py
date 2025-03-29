@@ -10,6 +10,7 @@ class Individual:
     def __init__(self, phenotype):
         self.phenotype = phenotype
         self.pair = None
+        self.age = 0
 
     def get_phenotype(self):
         return self.phenotype
@@ -25,3 +26,9 @@ class Individual:
 
     def get_sex(self):
         return self.phenotype[-1]
+
+    def set_age(self, age):
+        self.age = age
+
+    def get_age(self):
+        return self.age
