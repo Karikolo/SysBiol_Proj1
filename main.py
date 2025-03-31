@@ -27,18 +27,19 @@ def main():
     dying = []
     for generation in range(1,config.max_generations):
         dying = []
-
+# TODO: dodać ustalanie reproduction na False
         # 1. Mutacja
         mutate_population(pop, mu=config.mu, mu_c=config.mu_c, xi=config.xi)
 
         # 2. Selekcja
         survivors = threshold_selection(pop, env.get_optimal_phenotype(), config.sigma, config.threshold_surv)
         for individual in survivors:
+            #print(individual.get_sex())
             individual.set_pair(None)
-            if individual.get_age()>config.lifespan:
-                dying+=individual
+            #if individual.get_age()>config.lifespan:
+            #    dying+=individual
         pop.set_individuals(survivors)
-        survivors = [ind for ind in survivors if ind not in dying]
+        #survivors = [ind for ind in survivors if ind not in dying]
 
         if len(survivors) <= 0:
             print(f"Wszyscy wymarli w pokoleniu {generation}. Kończę symulację.")
@@ -53,16 +54,18 @@ def main():
         asex_paired = []
         asex_female = []
         for individual in asexuals:
+
             # remove all males from asexual reproduction:
-            if individual.get_phenotype()[-1] == 0:
-                individual.set_pair(individual)
-                asex_paired +=  [(individual,individual)]
-                asex_female.append(individual)
+            #if individual.get_phenotype()[-1] == 0:
+            individual.set_pair(individual)
+            asex_paired +=  [(individual,individual)]
+            asex_female.append(individual)
         #print("Asexuals paired (not males):", len(asex_paired))
 
         # Płciowa
         # Dobieranie w pary (ten, kto się nie dobierze, ten się nie rozmnaża)
-        sex_to_pair = [s for s in survivors if s not in asex_female] # lista osobników, które w tej generacji rozmnażają się płciowo
+        #sex_to_pair = [s for s in survivors if s not in asex_female] # lista osobników, które w tej generacji rozmnażają się płciowo
+        sex_to_pair = [s for s in survivors if s not in asex_female]
         # parowanie osobników - rozmnażanie płciowe
         sex_paired = pop.set_pairs(sex_to_pair)
         #print("Sexual paired:", sex_paired)

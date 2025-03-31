@@ -6,13 +6,14 @@ import config
 from selection import fitness_function
 
 
+
 def create_children(parents, number):
     if parents[0] == parents[1]: return [parents[0].get_phenotype() for child in range(number)]
     children = []
     for child in range(number):
         # randomly choose the values of traits from among parental alleles
-        phenotype = [np.random.choice([x,y]) for (x,y) in zip(parents[0].get_phenotype()[:-1], parents[0].get_phenotype()[:-1])]
-        sex = [np.random.choice([parents[0].get_phenotype()[-1], parents[0].get_phenotype()[-1]])]
+        phenotype = [np.random.choice([x,y]) for (x,y) in zip(parents[0].get_phenotype()[:-1], parents[1].get_phenotype()[:-1])]
+        sex = [np.random.choice([parents[0].get_sex(), parents[1].get_sex()])]
         phenotype = np.append(phenotype, sex)
         children.append(phenotype)
     return children
@@ -53,6 +54,11 @@ def reproduction(all_paired, alpha, sigma, N):
 
         spots_children = np.minimum(np.random.poisson(lambda_values), free_spots)  # Ensure we don't exceed free spots
         total_children = np.sum(spots_children)
+
+        if total_children>0 and pair[0]!=pair[1]:
+            pair[0].set_sex_reproduction(True)
+            pair[1].set_sex_reproduction(True)
+
         '''spots_children = min(np.random.poisson(ex_value), free_spots) #TODO: Poisson może lepiej?
         total_children = 0
         for i in range(spots_children):

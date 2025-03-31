@@ -11,6 +11,7 @@ class Individual:
         self.phenotype = phenotype
         self.pair = None
         self.age = 0
+        self.sex_reproduction = False
 
     def get_phenotype(self):
         return self.phenotype
@@ -32,3 +33,9 @@ class Individual:
 
     def get_age(self):
         return self.age
+
+    def set_sex_reproduction(self, sex_reproduction):
+        self.sex_reproduction = sex_reproduction
+
+    def get_sex_reproduction(self):
+        return self.sex_reproduction

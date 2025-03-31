@@ -8,6 +8,7 @@ from environment import Environment
 from population import Population
 from mutation import mutate_population
 from selection import proportional_selection, threshold_selection
+from reproduction import reproduction
 
 
 '''
@@ -16,27 +17,32 @@ from selection import proportional_selection, threshold_selection
     mean_pop - mediana ze średnich liczności populacji we wszystkich generacjach
     
 '''
-# Wykres pierwszy
+# Wykres pierwszy - HEATMAPA
+# Mediana średniego przyrostu populacji
 
-# TODO: zliczanie dzieci zamiast różnica między generacjami
+
 
 def heatmap_mut_sel(mut_rates, sigma_val, increase_pop):
 
     fig, ax = plt.subplots()
     im = ax.imshow(increase_pop)
+    mut_vr = sorted(mut_rates, reverse=True)
 
     ax.set_xticks(range(len(sigma_val)), labels = sigma_val) # ustawienie podpisów jest default
-    ax.set_yticks(range(len(mut_rates)), labels = mut_rates)
+    ax.set_yticks(range(len(mut_vr)), labels = mut_vr)
 
     for i in range(len(sigma_val)):
-        for j in range(len(mut_rates)):
+        for j in range(len(mut_vr)):
+            text_color = 'white' if increase_pop[i][j] < 0.5 else 'black'
             # pierwszy indeks to numer kolumny, drugi to numer wiersza
-            text = ax.text(i, j, increase_pop[i,j], ha='center', va='center', color='w') # indeksy upewnić się
+            text = ax.text(j,i, increase_pop[i][j], ha='center', va='center', color=text_color) # indeksy upewnić się
 
     ax.set_title('Mediana średniego przyrostu populacji')
+    ax.set_xlabel('Siła selekcji')
+    ax.set_ylabel('Częstość mutacji')
     fig.tight_layout()
 
-    plt.savefig('C:\\Users\\Anastazja\\Desktop\\heatmapa_mut_sel.png', dpi=300, bbox_inches = 'tight')
+    plt.savefig(f'C:\\Users\\Anastazja\\Desktop\\heatmaps\\heatmapa_mut_sel__kier_zm{config.c[0]}.png', dpi=300, bbox_inches = 'tight')
     plt.show()
 
 
@@ -51,39 +57,61 @@ def one_simulation(mut, sigma):
 
     print("Starting simulation")
 
-
     last_gen = config.N
+    gen = 0
 
     for generation in range(1, config.max_generations):
+        dying = []
+        gen+=1
+
         # 1. Mutacja
         mutate_population(pop, mu=mut, mu_c=config.mu_c, xi=config.xi)
+
         # 2. Selekcja
         survivors = threshold_selection(pop, env.get_optimal_phenotype(), sigma, config.threshold_surv)
         for individual in survivors:
             individual.set_pair(None)
+            #if individual.get_age() > config.lifespan:
+            #    dying += individual
         pop.set_individuals(survivors)
+        #survivors = [ind for ind in survivors if ind not in dying]
 
-        if len(survivors) > 0:
-            proportional_selection(pop, env.get_optimal_phenotype(), sigma, config.N)
-        else:
+        if len(survivors) <= 0:
             print(f"Wszyscy wymarli w pokoleniu {generation}. Kończę symulację.")
             finish_gif = True
+        if finish_gif: break
+        # print("Survivors:", survivors, len(survivors))
 
         # 3. Reprodukcja
-        # Dobieranie w pary (ten, kto się nie dobierze, ten się nie rozmnaża)
+        # Bezpłciowa
         asexuals = threshold_selection(pop, env.get_optimal_phenotype(), sigma, config.threshold_asex)
         # zmiana atrybutu - rozmnaża się sam
+        asex_paired = []
+        asex_female = []
         for individual in asexuals:
-            individual.set_pair(individual)
+            # remove all males from asexual reproduction:
+            if individual.get_phenotype()[-1] == 0:
+                individual.set_pair(individual)
+                asex_paired += [(individual, individual)]
+                asex_female.append(individual)
+        # print("Asexuals paired (not males):", len(asex_paired))
 
+        # Płciowa
+        # Dobieranie w pary (ten, kto się nie dobierze, ten się nie rozmnaża)
         sex_to_pair = [s for s in survivors if
-                       s not in asexuals]  # lista osobników, które w tej generacji rozmnażają się płciowo
+                       s not in asex_female]  # lista osobników, które w tej generacji rozmnażają się płciowo
         # parowanie osobników - rozmnażanie płciowe
         sex_paired = pop.set_pairs(sex_to_pair)
-        asex_paired = [(ind, ind) for ind in asexuals]
+        # print("Sexual paired:", sex_paired)
+
         # lista wszystkich par w populacji - płciowe i bezpłciowe
         all_paired = sex_paired + asex_paired
+        # print("All paired:", all_paired)
 
+        children_phenotypes = reproduction(all_paired, env.get_optimal_phenotype(), sigma, len(survivors))
+        # print("Children phenotypes:", children_phenotypes, len(children_phenotypes))
+        pop.add_individuals(children_phenotypes)
+        # print("New population:", pop.get_individuals(), len(pop.get_individuals()))
 
 
         # 4. Zmiana środowiska
@@ -94,27 +122,32 @@ def one_simulation(mut, sigma):
         count_increase += increase
         last_gen = len(pop.get_individuals())
 
-        if finish_gif:
-            result_increase.append(count_increase/generation)
-            break
+
+
 
     print("Symulacja zakończona.")
-    return statistics.median(result_increase)
+    return round(count_increase / gen, 2)
 
 
 def multi_simulations(mut_v, sigma_v):
 
     matrix_increase=[] # wiersze dla mut, kolumny dla sigma
+    mut_vr = sorted(mut_v, reverse=True)
 
-    for mut in mut_v:
+    for mut in mut_vr:
         v = []
         for sigma in sigma_v:
-            increase = one_simulation(mut, sigma)
-            v.append(increase)
+            for_med = []
+            for i in range(5):
+                increase = one_simulation(mut, sigma)
+                for_med.append(increase)
+            v.append(statistics.median(for_med))
         matrix_increase.append(v)
 
     return matrix_increase
 
 increase_pop = multi_simulations([0.1, 0.3, 0.5, 0.7, 0.9], [0.1, 0.3, 0.5, 0.7, 0.9])
+#increase_pop = multi_simulations([0.1,0.5], [0.1,0.5])
 heatmap_mut_sel([0.1, 0.3, 0.5, 0.7, 0.9], [0.1, 0.3, 0.5, 0.7, 0.9], increase_pop)
+#heatmap_mut_sel([0.1,0.5], [0.1,0.5], increase_pop)
 

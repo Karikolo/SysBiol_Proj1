@@ -4,11 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82476a7d-d19c-490d-91a6-d1881c3659f2" name="Changes" comment="Trying to merge">
+    <list default="true" id="82476a7d-d19c-490d-91a6-d1881c3659f2" name="Changes" comment="plots">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]1/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]2/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_1.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boxplot_sexualVSmut.py" beforeDir="false" afterPath="$PROJECT_DIR$/boxplot_sexualVSmut.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heatmap_mrVSss.py" beforeDir="false" afterPath="$PROJECT_DIR$/heatmap_mrVSss.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/individual.py" beforeDir="false" afterPath="$PROJECT_DIR$/individual.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/population.py" beforeDir="false" afterPath="$PROJECT_DIR$/population.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reproduction.py" beforeDir="false" afterPath="$PROJECT_DIR$/reproduction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/simulation.gif" beforeDir="false" afterPath="$PROJECT_DIR$/simulation.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/visualization.py" beforeDir="false" afterPath="$PROJECT_DIR$/visualization.py" afterDir="false" />
     </list>
     <list id="5a253c84-ecce-4014-9db1-72505fa835b8" name="Changes by Anastazja" comment="Updated sex as a phenotype trait, not mutable and not undergoing selection" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,8 +46,8 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Karikolo/SystemsBiology.git&quot;,
-    &quot;accountId&quot;: &quot;5ce3e0ea-9e49-4d39-90e1-81951d835494&quot;
+    &quot;url&quot;: &quot;https://github.com/Karikolo/SysBiol_Proj1.git&quot;,
+    &quot;accountId&quot;: &quot;c7a99402-6ddb-4456-ad63-623bf2a4ae97&quot;
   },
   &quot;recentNewPullRequestHead&quot;: {
     &quot;server&quot;: {
@@ -61,12 +70,15 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Python.boxplot_sexualVSmut.executor&quot;: &quot;Run&quot;,
+    &quot;Python.config.executor&quot;: &quot;Run&quot;,
+    &quot;Python.heatmap_mrVSss.executor&quot;: &quot;Run&quot;,
     &quot;Python.main.executor&quot;: &quot;Run&quot;,
     &quot;Python.reproduction.executor&quot;: &quot;Run&quot;,
     &quot;Python.visualization.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;KK__changes&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;AT__changes&quot;,
     &quot;last_opened_file_path&quot;: &quot;/home/karina/Documents/Bioinf_III/Systems_biology/UW-SysBiol-Project1/main.py&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
   }
@@ -126,7 +138,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-495700d161d3-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.22562.220" />
+        <option value="bundled-python-sdk-14705d77f0bb-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.25659.43" />
       </set>
     </attachedChunks>
   </component>
@@ -211,7 +223,15 @@
       <option name="project" value="LOCAL" />
       <updated>1742563568927</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="plots">
+      <option name="closed" value="true" />
+      <created>1743267976403</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1743267976403</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -268,6 +288,8 @@
     <MESSAGE value="Trying to merge" />
     <MESSAGE value="Changed asexual_reproduction: to be main reproduction function" />
     <MESSAGE value="Changed asexual_reproduction: to be main reproduction function, Anastazja's changes???" />
-    <option name="LAST_COMMIT_MESSAGE" value="Changed asexual_reproduction: to be main reproduction function, Anastazja's changes???" />
+    <MESSAGE value="changed set_pairs for basic mode" />
+    <MESSAGE value="plots" />
+    <option name="LAST_COMMIT_MESSAGE" value="plots" />
   </component>
 </project>
