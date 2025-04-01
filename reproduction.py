@@ -21,7 +21,7 @@ def create_children(parents, number):
 
 
 
-def asexual_reproduction(all_paired, N, alpha, sigma):
+def reproduction(all_paired, N, alpha, sigma):
     """
     Wersja bezpłciowa (klonowanie):
     - Zakładamy, że potomków będzie tyle, aby utrzymać rozmiar populacji = N.
