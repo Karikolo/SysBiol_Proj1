@@ -7,23 +7,28 @@ from selection import fitness_function
 
 
 def create_children(parents, number):
-    if parents[0] == parents[1]: return [parents[0].get_phenotype() for child in range(number)]
     children = []
     for child in range(number):
         # randomly choose the values of traits from among parental alleles
         phenotype = [np.random.choice([x,y]) for (x,y) in zip(parents[0].get_phenotype()[:-1], parents[0].get_phenotype()[:-1])]
-        sex = [np.random.choice([parents[0].get_phenotype()[-1], parents[0].get_phenotype()[-1]])]
+        sex = [np.random.choice(parents[0].get_phenotype()[-1], parents[0].get_phenotype()[-1])]
         phenotype = np.append(phenotype, sex)
         children.append(phenotype)
+
     return children
 
 
-def reproduction(all_paired, alpha, sigma, N):
-    """
-    all_paired eg.: [(<Individual 1>, <Individual 2>), (<Individual 3>, <Individual 3>)]
-    """
-    new_children = [] # lista wszystkich nowych osobników (potomstwa)
 
+
+
+def asexual_reproduction(all_paired, N, alpha, sigma):
+    """
+    Wersja bezpłciowa (klonowanie):
+    - Zakładamy, że potomków będzie tyle, aby utrzymać rozmiar populacji = N.
+    - W najprostszej wersji: jeżeli mamy M ocalałych, 
+      a M < N, to klonujemy ich losowo aż do uzyskania N osobników.
+    """
+    new_population = []
     if len(all_paired) == 0:
         # Zabezpieczenie: jeśli wszyscy wymarli, inicjujemy od nowa (albo zatrzymujemy symulację).
         return []
@@ -65,8 +70,8 @@ def reproduction(all_paired, alpha, sigma, N):
 
         # tworzymy osobniki potomne dla pary i dodajemy je do listy
         pairs_children = create_children(pair, total_children)
-        new_children += pairs_children
-    return new_children
+        new_population += pairs_children
+    return new_population
 
 """
     while len(new_population) < N:
@@ -78,3 +83,14 @@ def reproduction(all_paired, alpha, sigma, N):
     return new_population[:N]  # przycinamy, gdyby było za dużo
 
 """
+
+
+def sexual_reproduction(survivors, N):
+    """
+    Wesja płciowa:
+    - 
+    """
+    if len(survivors) == 0:
+        # Zabezpieczenie: jeśli wszyscy wymarli, inicjujemy od nowa (albo zatrzymujemy symulację).
+        return []
+    

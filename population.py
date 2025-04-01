@@ -61,7 +61,6 @@ class Population:
         for pair in paired:
             pair[0].set_pair(pair[1])
             pair[1].set_pair(pair[0])
-        print(paired)
         return paired
 
 """
