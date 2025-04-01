@@ -24,8 +24,9 @@ def main():
     # Zapis aktualnego stanu populacji do pliku PNG od pierwszego pokolenia
     frame_filename = os.path.join(frames_dir, f"frame_{0:03d}.png")
     plot_population(pop, env.get_optimal_phenotype(), 0, save_path=frame_filename, show_plot=False)
-    dying = []
+    #dying = []
     for generation in range(1,config.max_generations):
+        #print("Generation: ", generation, "\n", "Population: ", [ind.get_phenotype() for ind in pop.get_individuals()], "\n")
         dying = []
 
         # 1. Mutacja
@@ -39,6 +40,7 @@ def main():
                 dying+=individual
         pop.set_individuals(survivors)
         survivors = [ind for ind in survivors if ind not in dying]
+        #print("Survivors: ", [ind.get_phenotype() for ind in survivors])
 
         if len(survivors) <= 0:
             print(f"Wszyscy wymarli w pokoleniu {generation}. Kończę symulację.")
@@ -49,6 +51,8 @@ def main():
         # 3. Reprodukcja
         # Bezpłciowa
         asexuals = threshold_selection(pop, env.get_optimal_phenotype(), config.sigma, config.threshold_asex)
+        # print("Asexuals:",  [ind.get_phenotype() for ind in asexuals], len(asexuals))
+
         # zmiana atrybutu - rozmnaża się sam
         asex_paired = []
         #asex_female = []
@@ -75,7 +79,7 @@ def main():
         all_paired = sex_paired + asex_paired
         #print("All paired:", all_paired)
 
-        children_phenotypes = reproduction(all_paired, len(survivors), config.sigma, env.get_optimal_phenotype())
+        children_phenotypes = reproduction(all_paired, len(survivors),env.get_optimal_phenotype(),  config.sigma)
         #print("Children phenotypes:", children_phenotypes, len(children_phenotypes))
         pop.add_individuals(children_phenotypes)
         #print("New population:", pop.get_individuals(), len(pop.get_individuals()))

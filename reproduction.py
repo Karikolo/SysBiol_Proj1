@@ -10,9 +10,11 @@ def create_children(parents, number):
     children = []
     for child in range(number):
         # randomly choose the values of traits from among parental alleles
-        phenotype = [np.random.choice([x,y]) for (x,y) in zip(parents[0].get_phenotype()[:-1], parents[0].get_phenotype()[:-1])]
-        sex = [np.random.choice(parents[0].get_phenotype()[-1], parents[0].get_phenotype()[-1])]
-        phenotype = np.append(phenotype, sex)
+        phenotype = [np.random.choice([x,y]) for (x,y) in zip(parents[0].get_phenotype()[:-1], parents[1].get_phenotype()[:-1])]
+        #print("Create children, parent's phenotype: ", parents[0].get_phenotype() , " and sex: ", parents[0].get_phenotype()[-1], )
+        sex = [np.random.choice([int(parents[0].get_phenotype()[-1]), int(parents[1].get_phenotype()[-1])])]
+        phenotype = phenotype + sex
+        #print("Phenotype:", phenotype)
         children.append(phenotype)
 
     return children
@@ -36,10 +38,17 @@ def reproduction(all_paired, N, alpha, sigma):
     # Mieszanie par, żeby możliwość posiadania dzieci nie zależało od fitness
     np.random.shuffle(all_paired)
 
+    #print("All paired: ", [(pair[0].get_phenotype(), pair[1].get_phenotype()) for pair in all_paired])
     # Wyliczenie średniego fitness dla par w populacji
+    #print("Sigma in repr:", sigma)
+    #print("Parent's fitnesses: ",(fitness_function(all_paired[0][0].get_phenotype(),alpha, sigma), fitness_function(all_paired[0][1].get_phenotype(), alpha, sigma)))
+
     fitnesses = [((fitness_function(pair[0].get_phenotype(),alpha, sigma) +
                       fitness_function(pair[1].get_phenotype(), alpha, sigma))/2) for pair in all_paired]
+    #print("Fitnesses: ", fitnesses)
+
     total_fitness = sum(fitnesses)*2
+    #print("Total fitnesses: ", total_fitness)
 
 
     # Ustalenie możliwej liczby dzieci i liczby dzieci, które para ostatecznie urodziła
