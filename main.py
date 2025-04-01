@@ -12,6 +12,7 @@ from reproduction import reproduction
 from visualization import plot_population
 
 def main():
+    np.random.seed(config.seed)
     env = Environment(alpha_init=config.alpha0, c=config.c, delta=config.delta)
     pop = Population(size=config.N, n_dim=config.n)
     finish_gif = False # zmienna służąca do zapisania w gifie momentu wymarcia populacji
@@ -39,8 +40,9 @@ def main():
             individual.set_age(individual.get_age() + 1)
             if individual.get_age()>config.lifespan:
                 dying.append(individual)
-        pop.set_individuals(survivors)
         survivors = [ind for ind in survivors if ind not in dying]
+        pop.set_individuals(survivors)
+
         #print("Survivors: ", [ind.get_phenotype() for ind in survivors])
 
         if len(survivors) <= 0:

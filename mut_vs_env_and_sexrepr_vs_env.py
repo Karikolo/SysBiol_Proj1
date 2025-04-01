@@ -11,19 +11,11 @@ from selection import proportional_selection, threshold_selection
 from reproduction import reproduction
 from visualization import plot_population
 
-import matplotlib.pyplot as plt
-import matplotlib.patches as mpatches
-import matplotlib.lines as mlines
-
-def simulation(env, mut):
-    c = env[0]
-    delta = env[1]
-    env = Environment(alpha_init=config.alpha0, c=c, delta=delta)
+    np.random.seed(config.seed)
     pop = Population(size=config.N, n_dim=config.n)
     finish_gif = False  # zmienna służąca do zapisania w gifie momentu wymarcia populacji
 
     print("Starting simulation")
-
     # Zapis aktualnego stanu populacji do pliku PNG od pierwszego pokolenia
     plot_population(pop, env.get_optimal_phenotype(), 0, save_path=frame_filename, show_plot=False)
     # dying = []
@@ -105,63 +97,14 @@ def simulation(env, mut):
     print("Symulacja zakończona. Tworzenie GIF-a...")
 
     # Tutaj wywołujemy funkcję, która połączy zapisane klatki w animację
-    mut_vs_env_plot(frames_dir, "simulation.gif")
     print("GIF zapisany jako simulation.gif")
 
 
-def mut_vs_env_plot(population, alpha, generation, save_path=None, show_plot=False):
-
-
-    # create figure and axis
-    fig, ax = plt.subplots(figsize=(12, 6))
-    ax.set_xlim(start_year, start_year + populations.shape[1] - 1)
-    ax.set_ylim(0, populations.values.max() / 1_000_000 * 1.3)
-    ax.set_xlabel("Year", fontsize = 20)
-    ax.set_ylabel("Population (millions)", fontsize = 20)
-    ax.set_title(f"Population Growth Over Time for {task_dict[task][0]}", fontsize = 20)
-
-    # initialize line plots
-    lines = []
-    for i in range(len(countries)):
-        line, = ax.plot([], [], label=countries.iloc[i])
-        lines.append(line)
-    ax.legend(loc="upper left", title="Countries", fontsize=12)
-
-    display_year = ax.text(0.5, 0.9, str(start_year), transform=ax.transAxes, fontsize=20, ha="center")
-
-def main():
     """
-    script creating the mutation rate vs environmental conditions violin plots
-    (several subplots, one subplot per environment, one violin plot per mutation rate)
-    as well as the sexual reproduction to all reproduction proportion vs encironmental conditions line plot
-    (one plot, for each set of conditions one line, shows progression of sexual reproduction percentage over time???)
-    TODO: check if the last one really is the best way to present the data, maybe if the change was happening faster? bar plot?
-    Returns
-    -------
-
     """
-    np.random.seed(10)
 
-    # weak, medium, strong direction, strong sudden change, strong both:
-    envs = [[np.array([0.01, 0.01]), 0.01], [np.array([0.1, 0.1]), 0.1], [np.array([0.01, 0.01]), 0.5],
-            [np.array([0.5, 0.5]), 0.01], [np.array([0.5, 0.5]), 0.5]]
 
-    # only mutation rate is considered: no mutation, very weak,  weak, medium, high (half of the population)
-    mutations = [0, 0.05, 0.1, 0.3, 0.5]
-    ''' Parametry mutacji:
-    mu = 0.1
-    mu_c = 0.5       # prawdopodobieństwo mutacji konkretnej cechy, jeśli osobnik mutuje
-    xi = 0.3        # odchylenie standardowe w rozkładzie normalnym mutacji
-    Parametry środowiska:
-    c = np.array([0.01, 0.01])     # [0.01, 0.01]
-    delta = 0.15  
     '''
-    settings = {}
-    for env in envs:
-        for mut in mutations:
-            popul, sex_to_repr_proport = simulation(env, mut)
-            # popul =
-            settings[(env, mut)] = popul, sex_to_repr_proport
 
 if __name__ == "__main__":
     main()
