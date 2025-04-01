@@ -36,8 +36,9 @@ def main():
         survivors = threshold_selection(pop, env.get_optimal_phenotype(), config.sigma, config.threshold_surv)
         for individual in survivors:
             individual.set_pair(None)
+            individual.set_age(individual.get_age() + 1)
             if individual.get_age()>config.lifespan:
-                dying+=individual
+                dying.append(individual)
         pop.set_individuals(survivors)
         survivors = [ind for ind in survivors if ind not in dying]
         #print("Survivors: ", [ind.get_phenotype() for ind in survivors])

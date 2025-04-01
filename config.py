@@ -8,7 +8,7 @@ import numpy as np
 K = 250           # 200 limit pojemności siedliska
 N = 20           # liczba osobników w populacji
 n = 2            # wymiar przestrzeni fenotypowej
-lifespan = 4
+lifespan = 5
 
 # --------------------
 # PARAMETRY MUTACJI
@@ -33,6 +33,7 @@ alpha0 = np.array([0.0, 0.0])
 c = np.array([0.01, 0.01])     # [0.01, 0.01]
 delta = 0.15    # odchylenie standardowe dla fluktuacji
 max_generations = 200  # 20 liczba pokoleń do zasymulowania
+seed = 10 # używane dla porównywania tych samych symulacji w analizach
 
 # ----------------------
 # PARAMETRY REPRODUKCJI

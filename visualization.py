@@ -36,8 +36,10 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
             colors.append("orange")'''
     colors = np.array([
         "blue" if ind.get_pair() is ind else  # Asexual reproduction
+        "yellow" if ind.get_age() == 0 else
         "gray" if ind.get_pair() is None else  # Did not find a mate
         "green"  # Successfully mated
+
         for ind in ind_reversed
     ])
     # Define legend handles
@@ -45,7 +47,9 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
         mpatches.Patch(color="blue", label="Asexual reproduction"),
         mpatches.Patch(color="gray", label="No mate found"),
         mpatches.Patch(color="green", label="Mated successfully"),
-        mpatches.Patch(color="red", label="Optimum")
+        mpatches.Patch(color="red", label="Optimum"),
+        mpatches.Patch(color="yellow", label="Child")
+
     ]
 
 
