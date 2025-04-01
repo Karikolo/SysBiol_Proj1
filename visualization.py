@@ -36,7 +36,7 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
             colors.append("orange")'''
     colors = np.array([
         "blue" if ind.get_pair() is ind else  # Asexual reproduction
-        "yellow" if ind.get_age() == 0 else  # Only joined in this generation
+        "yellow" if ind.get_age() == 0 else
         "gray" if ind.get_pair() is None else  # Did not find a mate
         "green"  # Successfully mated
 

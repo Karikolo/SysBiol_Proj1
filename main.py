@@ -40,9 +40,8 @@ def main():
             individual.set_age(individual.get_age() + 1)
             if individual.get_age()>config.lifespan:
                 dying.append(individual)
-        survivors = [ind for ind in survivors if ind not in dying]
         pop.set_individuals(survivors)
-
+        survivors = [ind for ind in survivors if ind not in dying]
         #print("Survivors: ", [ind.get_phenotype() for ind in survivors])
 
         if len(survivors) <= 0:
