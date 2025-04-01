@@ -12,7 +12,6 @@ from reproduction import reproduction
 from visualization import plot_population
 
 def main():
-    np.random.seed(config.seed)
     env = Environment(alpha_init=config.alpha0, c=config.c, delta=config.delta)
     pop = Population(size=config.N, n_dim=config.n)
     finish_gif = False # zmienna służąca do zapisania w gifie momentu wymarcia populacji

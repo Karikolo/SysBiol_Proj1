@@ -13,9 +13,9 @@ lifespan = 5
 # --------------------
 # PARAMETRY MUTACJI
 # --------------------
-mu = 0.8         # prawdopodobieństwo mutacji dla osobnika
-mu_c = 0.7       # 0,7 prawdopodobieństwo mutacji konkretnej cechy, jeśli osobnik mutuje
-xi = 0.3        # odchylenie standardowe w rozkładzie normalnym mutacji
+mu = 0.1         # prawdopodobieństwo mutacji dla osobnika (czy)c
+mu_c = 0.5       # prawdopodobieństwo mutacji konkretnej cechy, jeśli osobnik mutuje (która cecha)
+xi = 0.3        # odchylenie standardowe w rozkładzie normalnym mutacji (o ile)
 
 # --------------------
 # PARAMETRY SELEKCJI
@@ -33,7 +33,6 @@ alpha0 = np.array([0.0, 0.0])
 c = np.array([0.01, 0.01])     # [0.01, 0.01]
 delta = 0.15    # odchylenie standardowe dla fluktuacji
 max_generations = 200  # 20 liczba pokoleń do zasymulowania
-seed = 10 # używane dla porównywania tych samych symulacji w analizach
 
 # ----------------------
 # PARAMETRY REPRODUKCJI
