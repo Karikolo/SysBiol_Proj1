@@ -37,14 +37,14 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
     colors = np.array([
         "blue" if ind.get_pair() is ind else  # Asexual reproduction
         "gray" if ind.get_pair() is None else  # Did not find a mate
-        "pink"  # Successfully mated
+        "green"  # Successfully mated
         for ind in ind_reversed
     ])
     # Define legend handles
     legend_patches = [
         mpatches.Patch(color="blue", label="Asexual reproduction"),
         mpatches.Patch(color="gray", label="No mate found"),
-        mpatches.Patch(color="pink", label="Mated successfully"),
+        mpatches.Patch(color="green", label="Mated successfully"),
         mpatches.Patch(color="red", label="Optimum")
     ]
 
@@ -52,15 +52,8 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
     #plt.figure(figsize=(5, 5))
     fig, ax = plt.subplots(figsize=(5, 5))
 
-    # Reproduction barriers:
-    circle_asex = mpatches.Circle((alpha[0], alpha[1]), np.sqrt(-2 * config.sigma**2 * np.log(config.threshold_asex)), fill=False, edgecolor='red',
-                                  linestyle='--', label='Asexual threshold')
-    circle_surv = mpatches.Circle((alpha[0], alpha[1]), np.sqrt(-2 * config.sigma**2 * np.log(config.threshold_surv)), fill=False, edgecolor='green',
-                                  linestyle='--', label='Survival threshold')
 
-    # Add circles to the plot
-    ax.add_patch(circle_asex)
-    ax.add_patch(circle_surv)
+
 
     # Males (Triangles)
     male_mask = (sex == 1)
@@ -76,11 +69,22 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
     ]
     #plt.scatter(x, y, label="Populacja", alpha=0.5, c=colors)
     ax.scatter([alpha[0]], [alpha[1]], color='red', label="Optimum", marker="x")
+    # Reproduction barriers:
+    circle_asex = mpatches.Circle((alpha[0], alpha[1]), np.sqrt(-2 * config.sigma ** 2 * np.log(config.threshold_asex)),
+                                  fill=False, edgecolor='red',
+                                  linestyle='--', label='Asexual threshold')
+    circle_surv = mpatches.Circle((alpha[0], alpha[1]), np.sqrt(-2 * config.sigma ** 2 * np.log(config.threshold_surv)),
+                                  fill=False, edgecolor='green',
+                                  linestyle='--', label='Survival threshold')
+
+    # Add circles to the plot
+    ax.add_patch(circle_asex)
+    ax.add_patch(circle_surv)
 
 
     ax.set_title(f"Pokolenie: {generation}, liczba osobników: {len(individuals)}")
-    ax.set_xlim(-5, 5)
-    ax.set_ylim(-5, 5)
+    ax.set_xlim(-6, 6)
+    ax.set_ylim(-6, 6)
     ax.legend(handles=legend_patches+legend_markers)
     plt.tight_layout()
     
