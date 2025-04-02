@@ -21,15 +21,13 @@ def run_simulation(params):
     pop = Population(size=config.N, n_dim=config.n)
     finish_sim = False  # zmienna służąca do zapisania w gifie momentu wymarcia populacji
 
-    print(f"Start symulacji z parametrami: c, delta = {env_params} mu = {mut}")
+    #print(f"Start symulacji z parametrami: c, delta = {env_params} mu = {mut}")
 
     last_gen = config.N
     sex_success = 0
-    gen = 0
 
-    for generation in range(1, config.max_generations):
-
-
+    for generation in range(1, config.max_generations+1):
+        gen = generation
         # 1. Mutacja
         mutate_population(pop, mu=mut, mu_c=config.mu_c, xi=config.xi)
 
@@ -84,10 +82,9 @@ def run_simulation(params):
             if individual.get_sex_reproduction(): sex_success+=1
 
         # 4. Zmiana środowiska
-        gen += 1
         env.update()
 
-    print("Symulacja zakończona.")
+    #print("Symulacja zakończona.")
     return ((env_params[0], env_params[1]), mut), gen
 
 
@@ -107,12 +104,12 @@ boxplot_sexvsmut(matrix, [0.1, 0.3, 0.5, 0.7, 0.9])
 def run_parallel(envs, mutations):
     start_time = time.time()
     envs_mutations = [(env, mut) for env in envs for mut in mutations]
-    print("Envs and mut: ", envs_mutations)
+    #print("Envs and mut: ", envs_mutations)
     with ProcessPoolExecutor() as executor:
         print("Starting parallel")
         # eg. [(((array([0.01, 0.01]), 0.01), 0), 114), (((array([0.01, 0.01]), 0.01), 0.05), 199), (((array([0.01, 0.01]), 0.01), 0.1), 199), (((array([0.01, 0.01]), 0.01), 0.3), 199), (((array([0.01, 0.01]), 0.01), 0.5), 199), (((array([0.1, 0.1]), 0.1), 0), 14), (((array([0.1, 0.1]), 0.1), 0.05), 14), (((array([0.1, 0.1]), 0.1), 0.1), 14), (((array([0.1, 0.1]), 0.1), 0.3), 11), (((array([0.1, 0.1]), 0.1), 0.5), 8), (((array([0.01, 0.01]), 0.5), 0), 5), (((array([0.01, 0.01]), 0.5), 0.05), 4), (((array([0.01, 0.01]), 0.5), 0.1), 5), (((array([0.01, 0.01]), 0.5), 0.3), 9), (((array([0.01, 0.01]), 0.5), 0.5), 2), (((array([0.5, 0.5]), 0.01), 0), 2), (((array([0.5, 0.5]), 0.01), 0.05), 3), (((array([0.5, 0.5]), 0.01), 0.1), 3), (((array([0.5, 0.5]), 0.01), 0.3), 2), (((array([0.5, 0.5]), 0.01), 0.5), 3), (((array([0.5, 0.5]), 0.5), 0), 3), (((array([0.5, 0.5]), 0.5), 0.05), 3), (((array([0.5, 0.5]), 0.5), 0.1), 4), (((array([0.5, 0.5]), 0.5), 0.3), 4), (((array([0.5, 0.5]), 0.5), 0.5), 2)]
         results_list = list(executor.map(run_simulation, envs_mutations))
-        print("Results list: ", results_list, "\n length: ", len(results_list))
+        #print("Results list: ", results_list, "\n length: ", len(results_list))
         #results_dict = {key: value for key, value in results_list}
     end_time = time.time()
     print(f"Parallel execution time: {end_time - start_time:.2f} seconds")
@@ -151,10 +148,10 @@ def run_multiple_times(iterations):
 def run_multiple_times(iterations):
     np.random.seed(10)
     # Environment parameters
-    envs = [[np.array([0.01, 0.01]), 0.01], [np.array([0.1, 0.1]), 0.1], [np.array([0.1, 0.1]), 0.5],
-            [np.array([0.5, 0.5]), 0.1], [np.array([0.5, 0.5]), 0.5]]
+    envs = [[np.array([0.01, 0.01]), 0.01], [np.array([0.05, 0.05]), 0.05], [np.array([0.1, 0.1]), 0.2],
+            [np.array([0.2, 0.2]), 0.1], [np.array([0.2, 0.2]), 0.2]]
     # Mutation parameters
-    mutations = [0, 0.05, 0.1, 0.3, 0.5]
+    mutations = [0, 0.01, 0.05, 0.1, 0.2]
 
     # Store results by iteration
     results_by_iteration = {}
@@ -180,7 +177,7 @@ def main():
     print("Start of a script returning bubble plots for different environmental conditions and mutation rates.")
     res_by_it, aggr_res = run_multiple_times(3)
     print("Results by iteration: ", res_by_it)
-    print("Results aggregated: ", aggr_res)
+    #print("Results aggregated: ", aggr_res)
     print("End of script.")
 
 

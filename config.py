@@ -6,7 +6,7 @@ import numpy as np
 # PARAMETRY POPULACJI
 # -------------------
 K = 250           # 200 limit pojemności siedliska
-N = 20           # liczba osobników w populacji
+N = 17           # liczba osobników w populacji
 n = 2            # wymiar przestrzeni fenotypowej
 lifespan = 5
 
@@ -32,7 +32,7 @@ alpha0 = np.array([0.0, 0.0])
 # Wektor kierunkowej zmiany c
 c = np.array([0.01, 0.01])     # [0.01, 0.01]
 delta = 0.05    # odchylenie standardowe dla fluktuacji
-max_generations = 200  # 20 liczba pokoleń do zasymulowania
+max_generations = 150  # liczba pokoleń do zasymulowania
 
 # ----------------------
 # PARAMETRY REPRODUKCJI
