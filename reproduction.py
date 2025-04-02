@@ -30,6 +30,7 @@ def reproduction(all_paired, N, alpha, sigma):
     - W najprostszej wersji: jeżeli mamy M ocalałych, 
       a M < N, to klonujemy ich losowo aż do uzyskania N osobników.
     """
+    #print("N in reproduction: ", N)
     new_population = []
     if len(all_paired) == 0:
         # Zabezpieczenie: jeśli wszyscy wymarli, inicjujemy od nowa (albo zatrzymujemy symulację).
@@ -53,7 +54,9 @@ def reproduction(all_paired, N, alpha, sigma):
 
     # Ustalenie możliwej liczby dzieci i liczby dzieci, które para ostatecznie urodziła
     free_spots = config.K - N
+    #print("First free spots: ", free_spots)
     for i,pair in enumerate(all_paired):
+        #print("Free spots: ", free_spots)
         ex_value = min(config.avg_children,free_spots/len(all_paired)) # oczekiwana liczba dzieci dla pary
         #p = 1 / (ex_value + 1)
 
@@ -66,6 +69,7 @@ def reproduction(all_paired, N, alpha, sigma):
 
 
         spots_children = np.minimum(np.random.poisson(lambda_values), free_spots)  # Ensure we don't exceed free spots
+        #print("Spots children: ", spots_children)
         total_children = np.sum(spots_children)
         '''spots_children = min(np.random.poisson(ex_value), free_spots) #TODO: Poisson może lepiej?
         total_children = 0
