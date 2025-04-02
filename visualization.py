@@ -318,8 +318,10 @@ def mut_vs_env_plot_with_iterations(results_by_iteration, save_path=None):
     """
     # Convert all results to a single DataFrame
     all_data = []
+    iterations = []
 
     for iteration, results in results_by_iteration.items():
+        iterations.append(iteration)
         for (env_params, mut), gen in results:
             c, delta = list(env_params)
             all_data.append({
@@ -370,12 +372,12 @@ def mut_vs_env_plot_with_iterations(results_by_iteration, save_path=None):
         iter_df = df[df['iteration'] == iter]
         size = 50 + (iter_df['generations'] / iter_df['generations'].max()) * 500
        # Approximate radius in data coordinates
-        r_data = (df['iteration'] - 2) * np.sqrt(iter_df['generations'].max()) / 100  # Adjust 10 as needed
+        r_data = (df['iteration'] - np.median(iterations)) * np.sqrt(iter_df['generations'].max()) / 100  # Adjust 10 as needed
 
         # Move bubbles by radius
         iter_df['x_jitter'] = iter_df['x_pos'] + r_data
         ax.scatter(iter_df['x_jitter'], iter_df['y_pos'],
-                    s=size, alpha=0.8, color=cmap(iter / 3),
+                    s=size, alpha=0.8, color=cmap(iter / len(iterations)),
                     marker='o', edgecolors='none',
                     label=f'Iteration {iter}')
 
@@ -417,7 +419,7 @@ def mut_vs_env_plot_with_iterations(results_by_iteration, save_path=None):
     ax.grid(True, linestyle='--', alpha=0.7)
 
     # Create a custom color bar
-    norm = plt.Normalize(0, 3)  # Assuming max mutation rate is 0.5
+    norm = plt.Normalize(0, len(iterations))
     sm = plt.cm.ScalarMappable(cmap=cmap, norm=norm)
     sm.set_array([])
     #cbar = plt.colorbar(sm, ax=ax)  # Explicitly associate the colorbar with 'ax'

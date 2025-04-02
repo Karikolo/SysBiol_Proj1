@@ -148,10 +148,10 @@ def run_multiple_times(iterations):
 def run_multiple_times(iterations):
     np.random.seed(10)
     # Environment parameters
-    envs = [[np.array([0.01, 0.01]), 0.01], [np.array([0.05, 0.05]), 0.05], [np.array([0.1, 0.1]), 0.2],
-            [np.array([0.2, 0.2]), 0.1], [np.array([0.2, 0.2]), 0.2]]
+    envs = [[np.array([0.01, 0.01]), 0.01], [np.array([0.05, 0.05]), 0.05], [np.array([0.1, 0.1]), 0.05],
+            [np.array([0.05, 0.05]), 0.1], [np.array([0.2, 0.2]), 0.05], [np.array([0.5, 0.5]), 0.05]]
     # Mutation parameters
-    mutations = [0, 0.01, 0.05, 0.1, 0.2]
+    mutations = [0, 0.01, 0.05, 0.1, 0.2, 0.5, 0.8]
 
     # Store results by iteration
     results_by_iteration = {}
@@ -175,7 +175,7 @@ def run_multiple_times(iterations):
 
 def main():
     print("Start of a script returning bubble plots for different environmental conditions and mutation rates.")
-    res_by_it, aggr_res = run_multiple_times(3)
+    res_by_it, aggr_res = run_multiple_times(5)
     print("Results by iteration: ", res_by_it)
     #print("Results aggregated: ", aggr_res)
     print("End of script.")
