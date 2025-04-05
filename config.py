@@ -6,7 +6,7 @@ import numpy as np
 # PARAMETRY POPULACJI
 # -------------------
 K = 250           # 200 limit pojemności siedliska
-N = 17           # liczba osobników w populacji
+N = 20           # liczba osobników w populacji
 n = 2            # wymiar przestrzeni fenotypowej
 lifespan = 5
 
@@ -37,6 +37,6 @@ max_generations = 150  # liczba pokoleń do zasymulowania
 # ----------------------
 # PARAMETRY REPRODUKCJI
 # ----------------------
-avg_children = 1.5
+avg_children = 2
 # W wersji bezpłciowej zakładamy klonowanie z uwzględnieniem mutacji.
 # Jeśli chcemy modelować płciowo, trzeba dodać odpowiednie parametry.

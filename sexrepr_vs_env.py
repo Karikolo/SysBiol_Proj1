@@ -9,13 +9,13 @@ from population import Population
 from mutation import mutate_population
 from selection import threshold_selection
 from reproduction import reproduction
-from visualization import mut_vs_env_plot_with_iterations
+from visualization import sexrepr_vs_env_plot
 
 
 def run_simulation(params):
     count_increase = 0 # licznik przyrostu populacji
     result_increase = []
-    env_params, mut = params
+    env_params = params
 
     env = Environment(alpha_init=config.alpha0, c=env_params[0], delta=env_params[1])
     pop = Population(size=config.N, n_dim=config.n)
@@ -23,14 +23,15 @@ def run_simulation(params):
 
     #print(f"Start symulacji z parametrami: c, delta = {env_params} mu = {mut}")
 
-    last_gen = config.N
     sex_success = 0
     gen = 0
+
+    sexrepr_vs_repr = [0.0]*(config.max_generations)
 
     for generation in range(1, config.max_generations+1):
         gen = generation
         # 1. Mutacja
-        mutate_population(pop, mu=mut, mu_c=config.mu_c, xi=config.xi)
+        mutate_population(pop, mu=config.mu, mu_c=config.mu_c, xi=config.xi)
 
         # 2. Selekcja
         survivors = threshold_selection(pop, env.get_optimal_phenotype(), config.sigma, config.threshold_surv)
@@ -45,7 +46,8 @@ def run_simulation(params):
         if len(survivors) <= 0:
             print(f"Wszyscy wymarli w pokoleniu {generation}. Kończę symulację.")
             finish_sim = True
-        if finish_sim: break
+        if finish_sim:
+            break
         # print("Survivors:", survivors, len(survivors))
 
         # 3. Reprodukcja
@@ -73,6 +75,10 @@ def run_simulation(params):
         # lista wszystkich par w populacji - płciowe i bezpłciowe
         all_paired = sex_paired + asex_paired
         # print("All paired:", all_paired)
+        if len(all_paired) !=0:  # Check if list is not empty
+            sexrepr_vs_repr[gen-1] = len(sex_paired)/len(all_paired)
+        else:
+            sexrepr_vs_repr[gen-1] = 0.0
 
         children_phenotypes = reproduction(all_paired,  len(survivors), env.get_optimal_phenotype(), config.sigma)
         # print("Children phenotypes:", children_phenotypes, len(children_phenotypes))
@@ -82,22 +88,21 @@ def run_simulation(params):
         for individual in pop.get_individuals():
             if individual.get_sex_reproduction(): sex_success+=1
 
+
         # 4. Zmiana środowiska
         env.update()
 
     #print("Symulacja zakończona.")
-    return ((env_params[0], env_params[1]), mut), gen
+    return (env_params[0], env_params[1]), sexrepr_vs_repr
 
 
-
-def run_parallel(envs, mutations):
+def run_parallel(envs):
     start_time = time.time()
-    envs_mutations = [(env, mut) for env in envs for mut in mutations]
     #print("Envs and mut: ", envs_mutations)
     with ProcessPoolExecutor() as executor:
         print("Starting parallel")
-        # eg. [(((array([0.01, 0.01]), 0.01), 0), 114), (((array([0.01, 0.01]), 0.01), 0.05), 199), (((array([0.01, 0.01]), 0.01), 0.1), 199), (((array([0.01, 0.01]), 0.01), 0.3), 199), (((array([0.01, 0.01]), 0.01), 0.5), 199), (((array([0.1, 0.1]), 0.1), 0), 14), (((array([0.1, 0.1]), 0.1), 0.05), 14), (((array([0.1, 0.1]), 0.1), 0.1), 14), (((array([0.1, 0.1]), 0.1), 0.3), 11), (((array([0.1, 0.1]), 0.1), 0.5), 8), (((array([0.01, 0.01]), 0.5), 0), 5), (((array([0.01, 0.01]), 0.5), 0.05), 4), (((array([0.01, 0.01]), 0.5), 0.1), 5), (((array([0.01, 0.01]), 0.5), 0.3), 9), (((array([0.01, 0.01]), 0.5), 0.5), 2), (((array([0.5, 0.5]), 0.01), 0), 2), (((array([0.5, 0.5]), 0.01), 0.05), 3), (((array([0.5, 0.5]), 0.01), 0.1), 3), (((array([0.5, 0.5]), 0.01), 0.3), 2), (((array([0.5, 0.5]), 0.01), 0.5), 3), (((array([0.5, 0.5]), 0.5), 0), 3), (((array([0.5, 0.5]), 0.5), 0.05), 3), (((array([0.5, 0.5]), 0.5), 0.1), 4), (((array([0.5, 0.5]), 0.5), 0.3), 4), (((array([0.5, 0.5]), 0.5), 0.5), 2)]
-        results_list = list(executor.map(run_simulation, envs_mutations))
+        # eg. [(((array([0.01, 0.01]), 0.01), 0.5), (((array([0.01, 0.01]), 0.01), 0.05), (((array([0.01, 0.01]), 0.01), 0.1), (((array([0.01, 0.01]), 0.01), 0.3), 199), (((array([0.01, 0.01]), 0.01), 0.5), 199), (((array([0.1, 0.1]), 0.1), 0), 14), (((array([0.1, 0.1]), 0.1), 0.05), 14), (((array([0.1, 0.1]), 0.1), 0.1), 14), (((array([0.1, 0.1]), 0.1), 0.3), 11), (((array([0.1, 0.1]), 0.1), 0.5), 8), (((array([0.01, 0.01]), 0.5), 0), 5), (((array([0.01, 0.01]), 0.5), 0.05), 4), (((array([0.01, 0.01]), 0.5), 0.1), 5), (((array([0.01, 0.01]), 0.5), 0.3), 9), (((array([0.01, 0.01]), 0.5), 0.5), 2), (((array([0.5, 0.5]), 0.01), 0), 2), (((array([0.5, 0.5]), 0.01), 0.05), 3), (((array([0.5, 0.5]), 0.01), 0.1), 3), (((array([0.5, 0.5]), 0.01), 0.3), 2), (((array([0.5, 0.5]), 0.01), 0.5), 3), (((array([0.5, 0.5]), 0.5), 0), 3), (((array([0.5, 0.5]), 0.5), 0.05), 3), (((array([0.5, 0.5]), 0.5), 0.1), 4), (((array([0.5, 0.5]), 0.5), 0.3), 4), (((array([0.5, 0.5]), 0.5), 0.5), 2)]
+        results_list = list(executor.map(run_simulation, envs))
         #print("Results list: ", results_list, "\n length: ", len(results_list))
         #results_dict = {key: value for key, value in results_list}
     end_time = time.time()
@@ -105,87 +110,30 @@ def run_parallel(envs, mutations):
     return results_list
 
 def run_multiple_times(iterations):
-    np.random.seed(10)
+    np.random.seed(21)
     # Environment parameters
-    envs = [[np.array([0.01, 0.01]), 0.01], [np.array([0.05, 0.05]), 0.05], [np.array([0.1, 0.1]), 0.05],
-            [np.array([0.05, 0.05]), 0.1], [np.array([0.2, 0.2]), 0.05], [np.array([0.5, 0.5]), 0.05]]
-    # Mutation parameters
-    mutations = [0, 0.01, 0.05, 0.1, 0.2, 0.5, 0.8]
+    envs = [[np.array([0.01, 0.01]), 0.01], [np.array([0.02, 0.02]), 0.01], [np.array([0.05, 0.05]), 0.01],
+            [np.array([0.1, 0.1]), 0.01], [np.array([0.2, 0.2]), 0.01], [np.array([0.5, 0.5]), 0.01]]
 
     # Store results by iteration
-    results_by_iteration = {}
-
     print("\nRunning on all available cores...")
     for i in range(iterations):
         print(f"Iteration {i + 1}/{iterations}")
-        iteration_results = run_parallel(envs, mutations)
-        results_by_iteration[i + 1] = iteration_results
+        iteration_results = run_parallel(envs)
+        sexrepr_vs_env_plot(iteration_results, save_path=f"line_plot_iteration_{i}.png")
 
     # Generate visualization with all iterations
-    mut_vs_env_plot_with_iterations(results_by_iteration, save_path=f"bubble_plot_all_iterations_{iterations}.png")
 
     # Calculate average generations across iterations
-    aggregated_results = {}
 
     print(f"Completed {iterations} iterations.")
-    return results_by_iteration, aggregated_results
+
 
 def main():
     print("Start of a script returning bubble plots for different environmental conditions and mutation rates.")
-    res_by_it, aggr_res = run_multiple_times(5)
-    print("Results by iteration: ", res_by_it)
+    run_multiple_times(1)
     print("End of script.")
 
 
 if __name__ == "__main__":
     main()
-
-
-# Archive (for future reference):
-"""
-        settings = {}
-    for env in envs:
-        for mut in mutations:
-            popul, sex_to_repr_proport = simulation(env, mut)
-            # popul =
-            settings[(env, mut)] = popul, sex_to_repr_proport
-
-
-matrix = multi_simulations([0.1, 0.3, 0.5, 0.7, 0.9])
-boxplot_sexvsmut(matrix, [0.1, 0.3, 0.5, 0.7, 0.9])
-
-    """
-'''for key in results_by_iteration[1].keys():  # Assumes all iterations have the same keys
-        aggregated_results[key] = sum(results_by_iteration[i + 1][key] for i in range(iterations)) / iterations
-'''
-'''
-    def run_simulation(env_mut):
-        env, mut = env_mut
-        popul, sex_to_repr_proport = multi_simulations(env, mut)
-        return ((env, mut), popul) # TODO - make it work with dict
-
-    envs_mutations = [(env, mut) for env in envs for mut in mutations]
-
-    with ProcessPoolExecutor() as executor:
-        results = dict(executor.map(run_simulation, envs_mutations))
-
-
-
-'''
-
-'''
-def run_multiple_times(iterations):
-    np.random.seed(10)
-    # weak, medium, strong direction, strong sudden change, strong both:
-    envs = [[np.array([0.01, 0.01]), 0.01], [np.array([0.1, 0.1]), 0.1], [np.array([0.01, 0.01]), 0.5],
-            [np.array([0.5, 0.5]), 0.01], [np.array([0.5, 0.5]), 0.5]]
-
-    # only mutation rate is considered: no mutation, very weak,  weak, medium, high (half of the population)
-    mutations = [0, 0.05, 0.1, 0.3, 0.5]
-
-    print("\nRunning on all available cores...")
-    for i in range (iterations):
-        print(f"Iteration {i+1}/{iterations}")
-        parallel_results = run_parallel(envs, mutations)
-        mut_vs_env_plot(parallel_results)
-'''
