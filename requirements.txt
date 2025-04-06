@@ -1,4 +1,9 @@
 numpy
 matplotlib
 imageio
-
+concurrent.futures
+time
+pandas
+statistics
+decimal
+multiprocessing
