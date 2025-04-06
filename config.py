@@ -5,17 +5,17 @@ import numpy as np
 # -------------------
 # PARAMETRY POPULACJI
 # -------------------
-K = 250           # 200 limit pojemności siedliska
-N = 20           # liczba osobników w populacji
+K = 300           # 200 limit pojemności siedliska
+N = 40           # liczba osobników w populacji
 n = 2            # wymiar przestrzeni fenotypowej
 lifespan = 5
 
 # --------------------
 # PARAMETRY MUTACJI
 # --------------------
-mu = 0.8         # prawdopodobieństwo mutacji dla osobnika
-mu_c = 0.7       # 0,7 prawdopodobieństwo mutacji konkretnej cechy, jeśli osobnik mutuje
-xi = 0.3        # odchylenie standardowe w rozkładzie normalnym mutacji
+mu = 0.5         # prawdopodobieństwo mutacji dla osobnika (czy)c
+mu_c = 0.6       # prawdopodobieństwo mutacji konkretnej cechy, jeśli osobnik mutuje (która cecha)
+xi = 0.5        # odchylenie standardowe w rozkładzie normalnym mutacji (o ile)
 
 # --------------------
 # PARAMETRY SELEKCJI
@@ -28,16 +28,15 @@ threshold_asex = 0.9 # 0,9próg do selekcji progowej osobników mogących się r
 # PARAMETRY ŚRODOWISKA
 # --------------------
 # Początkowe alpha(t)
-alpha0 = np.array([0.0, 0.0])  
+alpha0 = np.array([0.0, 0.0])
 # Wektor kierunkowej zmiany c
 c = np.array([0.01, 0.01])     # [0.01, 0.01]
-delta = 0.15    # odchylenie standardowe dla fluktuacji
-max_generations = 200  # 20 liczba pokoleń do zasymulowania
-seed = 10 # używane dla porównywania tych samych symulacji w analizach
-
+delta = 0.05    # odchylenie standardowe dla fluktuacji
+max_generations = 200  # liczba pokoleń do zasymulowania
+seed = 10
 # ----------------------
 # PARAMETRY REPRODUKCJI
 # ----------------------
-avg_children = 2
+avg_children = 1.5
 # W wersji bezpłciowej zakładamy klonowanie z uwzględnieniem mutacji.
 # Jeśli chcemy modelować płciowo, trzeba dodać odpowiednie parametry.

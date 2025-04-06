@@ -47,6 +47,7 @@ def plot_population(population, alpha, generation, save_path=None, show_plot=Fal
         mpatches.Patch(color="blue", label="Asexual reproduction"),
         mpatches.Patch(color="gray", label="No mate found"),
         mpatches.Patch(color="green", label="Mated successfully"),
+        mpatches.Patch(color="yellow", label="Offspring"),
         mpatches.Patch(color="red", label="Optimum")
     ]
 

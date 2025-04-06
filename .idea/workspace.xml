@@ -4,16 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="82476a7d-d19c-490d-91a6-d1881c3659f2" name="Changes" comment="plots">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]1/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase_[Changes]2/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_2.xml" beforeDir="false" />
+    <list default="true" id="82476a7d-d19c-490d-91a6-d1881c3659f2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/paralell.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/boxplot_sexualVSmut.py" beforeDir="false" afterPath="$PROJECT_DIR$/boxplot_sexualVSmut.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/boxplot_sexualVSmut.py" beforeDir="false" afterPath="$PROJECT_DIR$/boxplot_sexual_mut.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/config.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/heatmap_mrVSss.py" beforeDir="false" afterPath="$PROJECT_DIR$/heatmap_mrVSss.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/individual.py" beforeDir="false" afterPath="$PROJECT_DIR$/individual.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/heatmap_mrVSss.py" beforeDir="false" afterPath="$PROJECT_DIR$/heatmap_mr_ss.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/reproduction.py" beforeDir="false" afterPath="$PROJECT_DIR$/reproduction.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/simulation.gif" beforeDir="false" afterPath="$PROJECT_DIR$/simulation.gif" afterDir="false" />
@@ -25,9 +21,17 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Jupyter Notebook" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
+        <option value="Karikolo &lt;kj.kolodzie2@students.uw.edu.pl&gt;" />
         <option value="anastazjat08 &lt;anastazjat08@gmail.com&gt;" />
       </list>
     </option>
@@ -68,22 +72,30 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Python.boxplot_sexualVSmut.executor&quot;: &quot;Run&quot;,
-    &quot;Python.config.executor&quot;: &quot;Run&quot;,
-    &quot;Python.heatmap_mrVSss.executor&quot;: &quot;Run&quot;,
-    &quot;Python.main.executor&quot;: &quot;Run&quot;,
-    &quot;Python.reproduction.executor&quot;: &quot;Run&quot;,
-    &quot;Python.visualization.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;AT__changes&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/karina/Documents/Bioinf_III/Systems_biology/UW-SysBiol-Project1/main.py&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.lookFeel&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Python.boxplot_sexualVSmut.executor": "Run",
+    "Python.boxplot_sexual_mut.executor": "Run",
+    "Python.config.executor": "Run",
+    "Python.heatmap_mrVSss.executor": "Run",
+    "Python.heatmap_mr_ss.executor": "Run",
+    "Python.main.executor": "Run",
+    "Python.reproduction.executor": "Run",
+    "Python.visualization.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "AT__changes",
+    "last_opened_file_path": "/home/karina/Documents/Bioinf_III/Systems_biology/UW-SysBiol-Project1/main.py",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager" selected="Python.main">
+}]]></component>
+  <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="SysBiol_Proj1" />
       <option name="ENV_FILES" value="" />
@@ -97,6 +109,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -119,6 +132,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/reproduction.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
@@ -138,7 +152,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-14705d77f0bb-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.25659.43" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-PY-243.26053.29" />
+        <option value="bundled-python-sdk-b1dbf8ef85a6-4df51de95216-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.26053.29" />
       </set>
     </attachedChunks>
   </component>
@@ -150,6 +165,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1742547359313</updated>
+      <workItem from="1743449541770" duration="132000" />
+      <workItem from="1743513930990" duration="1129000" />
+      <workItem from="1743851336052" duration="41823000" />
     </task>
     <task id="LOCAL-00001" summary="Updated sex as a phenotype trait, not mutable and not undergoing selection">
       <option name="closed" value="true" />
@@ -231,8 +249,35 @@
       <option name="project" value="LOCAL" />
       <updated>1743267976403</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Heatmap, boxplot, in main change: males can asex_reproduce, correction in create_children for sex_reproduction, added attribute sex_reproduction_success (for heatmap)">
+      <option name="closed" value="true" />
+      <created>1743440110138</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1743440110138</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Age updated (they should be dying after 5 generations, as well as children added to visualisation">
+      <option name="closed" value="true" />
+      <created>1743851843376</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1743851843376</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Population simulation fully operational, seed added in main and config to ensure reproducibility of the simulations">
+      <option name="closed" value="true" />
+      <created>1743851982496</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1743851982496</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="RECENT_FILTERS">
@@ -259,19 +304,7 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="origin/KK_changes" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
@@ -290,6 +323,17 @@
     <MESSAGE value="Changed asexual_reproduction: to be main reproduction function, Anastazja's changes???" />
     <MESSAGE value="changed set_pairs for basic mode" />
     <MESSAGE value="plots" />
-    <option name="LAST_COMMIT_MESSAGE" value="plots" />
+    <MESSAGE value="Heatmap, boxplot, in main change: males can asex_reproduce, correction in create_children for sex_reproduction, added attribute sex_reproduction_success (for heatmap)" />
+    <MESSAGE value="Age updated (they should be dying after 5 generations, as well as children added to visualisation" />
+    <MESSAGE value="Population simulation fully operational, seed added in main and config to ensure reproducibility of the simulations" />
+    <option name="LAST_COMMIT_MESSAGE" value="Population simulation fully operational, seed added in main and config to ensure reproducibility of the simulations" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/SysBiol_Proj1$boxplot_sexual_mut.coverage" NAME="boxplot_sexual_mut Coverage Results" MODIFIED="1743890257189" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SysBiol_Proj1$boxplot_sexualVSmut.coverage" NAME="boxplot_sexualVSmut Coverage Results" MODIFIED="1743885664285" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SysBiol_Proj1$main.coverage" NAME="main Coverage Results" MODIFIED="1743884666208" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SysBiol_Proj1$config.coverage" NAME="config Coverage Results" MODIFIED="1743889389618" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SysBiol_Proj1$heatmap_mrVSss.coverage" NAME="heatmap_mrVSss Coverage Results" MODIFIED="1743865439693" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/SysBiol_Proj1$heatmap_mr_ss.coverage" NAME="heatmap_mr_ss Coverage Results" MODIFIED="1743900889376" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>
