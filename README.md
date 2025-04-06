@@ -1,5 +1,5 @@
 # UW-SysBiol-Project1
-Geometric Fisher Model
+Geometric Fisher Model\n
 Before running the scripts, start a virutal environment with installed libraries from requirements.txt
 ### main.py - for running the base simulation
 `python3 main.py`
