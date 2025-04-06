@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib as mpl
 
+import os
 import config
 from environment import Environment
 from population import Population
@@ -28,8 +29,9 @@ def boxplot_sexvsmut(mean_matrix, labels):
         patch.set_facecolor(color)
 
     fig.tight_layout()
-
-    plt.savefig(f'C:\\Users\\Anastazja\\Desktop\\boxplots\\boxplot11.png', dpi=300, bbox_inches = 'tight')
+    path =f'C:\\Users\\Anastazja\\Desktop\\boxplots\\boxplot11.png'
+    if not os.path.exists(path): path = "boxplot11.png"
+    plt.savefig(path, dpi=300, bbox_inches = 'tight')
     plt.show()
 
 

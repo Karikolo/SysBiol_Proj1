@@ -5,7 +5,7 @@ import statistics
 from decimal import Decimal, ROUND_HALF_UP
 from multiprocessing import Pool
 
-
+import os
 import config
 from environment import Environment
 from population import Population
@@ -45,7 +45,9 @@ def heatmap_mut_sel(mut_rates, sigma_val, increase_pop):
     ax.set_ylabel('Częstość mutacji')
     fig.tight_layout()
 
-    plt.savefig(f'C:\\Users\\Anastazja\\Desktop\\heatmaps\\heatmapa6.png', dpi=300, bbox_inches = 'tight')
+    path = f'C:\\Users\\Anastazja\\Desktop\\heatmaps\\heatmapa6.png'
+    if not os.path.exists(path): path = "heatmapa6.png"
+    plt.savefig(path, dpi=300, bbox_inches = 'tight')
     plt.show()
 
 
