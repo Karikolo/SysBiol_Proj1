@@ -57,6 +57,7 @@ def reproduction(all_paired, N, alpha, sigma):
     #print("First free spots: ", free_spots)
     for i,pair in enumerate(all_paired):
         #print("Free spots: ", free_spots)
+
         ex_value = min(config.avg_children,free_spots/len(all_paired)) # oczekiwana liczba dzieci dla pary
         #p = 1 / (ex_value + 1)
 
@@ -71,6 +72,10 @@ def reproduction(all_paired, N, alpha, sigma):
         spots_children = np.minimum(np.random.poisson(lambda_values), free_spots)  # Ensure we don't exceed free spots
         #print("Spots children: ", spots_children)
         total_children = np.sum(spots_children)
+        if total_children > 0 :
+            pair[0].set_sex_reproduction(True)
+            pair[1].set_sex_reproduction(True)
+
         '''spots_children = min(np.random.poisson(ex_value), free_spots) #TODO: Poisson może lepiej?
         total_children = 0
         for i in range(spots_children):
